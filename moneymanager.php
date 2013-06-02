@@ -50,7 +50,7 @@
 
 			<div class="well">
 				<form class="form-horizontal">
-					<select class='all_months' ng-model="mt_month">
+					<select class='all_months' ng-model="mt_month" ng-change="month_changed()">
 						<option ng-repeat="(key, each_month) in all_months" value="{{key + 1}}">{{each_month}}</option>
 					</select>
 
@@ -60,6 +60,12 @@
 
 					<button class="btn btn-success pull-right" id="btn_add_narration"><i class="icon-plus icon-white"></i> Item</button>
 				</form>
+			</div>
+
+			<div>
+				<div class="progress progress-danger" id="budget_meter">
+				  <div class="bar"></div>
+				</div>
 			</div>
 
 			<table class="table table-hover">
@@ -148,7 +154,7 @@
 		<hr>
 
 		<div>
-			<input placeholder="Amount" type="text" class="span2" ng-model="amount">
+			<input placeholder="Amount" type="text" class="span2" ng-model="amount" required>
 
 			<div class="btn-group" data-toggle="buttons-radio">
 				<button type="button" class="btn btn-success" ng-click="inc_exp = 'inc'">Income</button>
@@ -157,7 +163,10 @@
 		</div>
 
 		<div>
-			<input type="text" id="narration_date" placeholder="Date" class="span2" ng-model="narration_date"> <strong>{{all_months[mt_month - 1]}}, {{mt_year}}</strong>
+			<select class="span2" ng-model="narration_date" required>
+				<option ng-repeat="(key, each_day) in all_days" value="{{each_day}}">{{each_day}}</option>
+			</select>
+			<!--input type="text" id="narration_date" placeholder="Date" class="span2" ng-model="narration_date" required--> <strong>{{all_months[mt_month - 1]}}, {{mt_year}}</strong>
 			<label class="checkbox"><input type="checkbox" id="recurring" name="recurring" ng-model="add_recurring"> Recurring</label>
 
 			<div ng-show="add_recurring">
@@ -197,72 +206,39 @@
 		$scope.all_years = ['2013', '2014'];
 
 		var d = new Date();
+		var cur_month = d.getMonth() + 1;
 
-		$scope.mt_month = String(d.getMonth() + 1);
+		$scope.mt_month = String(cur_month);
 		$scope.mt_year = "2013";
 
-		$scope.monthly_data = [
-			{
-				full_date: "12/05/2013",
-				narration: "McDonalds",
-				amount: "145",
-				inc_exp: "expense"
-			},
-			{
-				full_date: "14/05/2013",
-				narration: "Petrol",
-				amount: "1500",
-				inc_exp: "expense"
-			},
-			{
-				full_date: "12/05/2013",
-				narration: "Gift",
-				amount: "500",
-				inc_exp: "income"
-			},
-			{
-				full_date: "18/05/2013",
-				narration: "Shanti Sagar",
-				amount: "475",
-				inc_exp: "expense"
-			},
-			{
-				full_date: "22/05/2013",
-				narration: "Dividend",
-				amount: "250",
-				inc_exp: "income"
-			},
-			{
-				full_date: "22/05/2013",
-				narration: "Salary",
-				amount: "15000",
-				inc_exp: "income"
-			},
-			{
-				full_date: "12/05/2013",
-				narration: "McDonalds",
-				amount: "145",
-				inc_exp: "expense"
-			},
-			{
-				full_date: "12/05/2013",
-				narration: "Dividend",
-				amount: "400",
-				inc_exp: "income"
-			},
-			{
-				full_date: "12/05/2013",
-				narration: "McDonalds",
-				amount: "145",
-				inc_exp: "expense"
-			},
-			{
-				full_date: "12/05/2013",
-				narration: "Upahar",
-				amount: "45",
-				inc_exp: "expense"
+		$scope.monthly_budget = 10000;
+
+		// Populate date dropdown
+		$scope.populate_days_dd = function() {
+			var no_of_days;
+			var months_31 = ["1", "3", "5", "7", "8", "10", "12"];
+			if (months_31.indexOf($scope.mt_month) != -1) {
+				no_of_days = 31;
+			} else if (cur_month == "2") {
+				no_of_days = 28;
+			} else {
+				no_of_days = 30;
 			}
-		];
+
+			$scope.all_days = [];
+			for (var i = 1; i <= no_of_days; i++) {
+				$scope.all_days.push(i);
+			}
+		}
+
+		$scope.populate_days_dd();
+
+		$scope.inc_exp = '';
+
+		$scope.month_changed = function() {
+			$scope.get_narrations();
+			$scope.populate_days_dd();			
+		}
 
 		$scope.get_narrations = function() {
 			var data = {};
@@ -281,13 +257,38 @@
 
 				if (data['err'] == null) {
 					$scope.monthly_data = data['data'];
+					evaluate_totals_budget();
 				}
 
 			});
 		}
 
-		$scope.get_narrations();
+		function evaluate_totals_budget() {
+			var income = 0;
+			var expenses = 0;
 
+			$($scope.monthly_data).each(function(key, cur_month_data) {
+				var amount = parseFloat(cur_month_data['amount'], 10);
+
+				if (cur_month_data['inc_exp'] == 'inc') {
+					income += amount;
+				} else {
+					expenses += amount;
+				}
+			});
+
+			console.log("Income: " + income + "  Expense: " + expenses);
+
+			if (expenses <= $scope.monthly_budget) {
+				var width = (expenses * 100) / $scope.monthly_budget;
+				width += '%';
+				$('#budget_meter > .bar').css('width', width);
+			} else {
+				// Budget overshot
+			}
+		}
+
+		$scope.get_narrations();
 
 		$scope.add_narration = function() {
 			var date = $scope.narration_date;
