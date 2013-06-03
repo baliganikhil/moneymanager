@@ -37,7 +37,7 @@
 	<div class="span3">
 
 		<ul class="nav nav-tabs nav-stacked">
-			<li id="show_monthly_budget"><a href="javascript: void(0);">Set Monthly Budget</a></li>
+			<li class="show_monthly_budget"><a href="javascript: void(0);">Set Monthly Budget</a></li>
 		</ul>
 
 	</div>
@@ -63,7 +63,11 @@
 			</div>
 
 			<div>
-				<div class="progress progress-danger" id="budget_meter">
+				<div class="alert" ng-show="monthly_budget == ''">
+					You have not set up your monthly budget. <a href="javascript:void(0);" class="show_monthly_budget">Set it now</a>
+				</div>
+
+				<div class="progress progress-danger" id="budget_meter" ng-show="monthly_budget != ''">
 				  <div class="bar"></div>
 				</div>
 			</div>
@@ -134,6 +138,13 @@
 
 		</div>
 
+	</div>
+
+	<div class="span3 well">
+		<ul class="nav nav-tabs nav-stacked">
+			<li><a href="javascript:void(0);" class="label_red">Expenses: {{total_expenses}}</a></li>
+			<li><a href="javascript:void(0);" class="label_green">Income: {{total_income}}</a></li>
+		</ul>
 	</div>
 
 </div>
@@ -264,23 +275,23 @@
 		}
 
 		function evaluate_totals_budget() {
-			var income = 0;
-			var expenses = 0;
+			$scope.total_income = 0;
+			$scope.total_expenses = 0;
 
 			$($scope.monthly_data).each(function(key, cur_month_data) {
 				var amount = parseFloat(cur_month_data['amount'], 10);
 
 				if (cur_month_data['inc_exp'] == 'inc') {
-					income += amount;
+					$scope.total_income += amount;
 				} else {
-					expenses += amount;
+					$scope.total_expenses += amount;
 				}
 			});
 
-			console.log("Income: " + income + "  Expense: " + expenses);
+			console.log("Income: " + $scope.total_income + "  Expense: " + $scope.total_expenses);
 
-			if (expenses <= $scope.monthly_budget) {
-				var width = (expenses * 100) / $scope.monthly_budget;
+			if ($scope.total_expenses <= $scope.monthly_budget) {
+				var width = ($scope.total_expenses * 100) / $scope.monthly_budget;
 				width += '%';
 				$('#budget_meter > .bar').css('width', width);
 			} else {
@@ -344,7 +355,7 @@
 		show_add_narration();
 	});
 
-	$('#show_monthly_budget').on('click', function() {
+	$('.show_monthly_budget').on('click', function() {
 		show_monthly_budget();
 	});
 
