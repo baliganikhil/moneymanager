@@ -57,6 +57,10 @@ class MongoWrapper {
 		
 	}
 
+	public function get_montly_data($params) {
+
+	}
+
 	private function get_db() {
 		$m = new MongoClient();
 		$db = $m->test;

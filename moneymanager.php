@@ -171,13 +171,22 @@
 				<button type="button" class="btn btn-success" ng-click="inc_exp = 'inc'">Income</button>
 				<button type="button" class="btn btn-danger" ng-click="inc_exp = 'exp'">Expense</button>
 			</div>
+
+			<div ng-show="inc_exp == 'exp'">
+				<label class="checkbox"><input type="checkbox" id="avoidable" name="avoidable" ng-model="is_avoidable"> Avoidable Expense?</label>
+			</div>
 		</div>
+
+		<hr>
 
 		<div>
 			<select class="span2" ng-model="narration_date" required>
 				<option ng-repeat="(key, each_day) in all_days" value="{{each_day}}">{{each_day}}</option>
 			</select>
 			<!--input type="text" id="narration_date" placeholder="Date" class="span2" ng-model="narration_date" required--> <strong>{{all_months[mt_month - 1]}}, {{mt_year}}</strong>
+			
+			<hr>
+			
 			<label class="checkbox"><input type="checkbox" id="recurring" name="recurring" ng-model="add_recurring"> Recurring</label>
 
 			<div ng-show="add_recurring">

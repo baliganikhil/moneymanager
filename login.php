@@ -14,33 +14,62 @@
 
 	
 
-	<div class="container">
+	<div class="container" ng-controller="LoginController">
 
 		<div class="span6 well" style="margin-top: 20px;">
 			<form class="form-horizontal">
 			  <div class="control-group">
 			    <label class="control-label" for="inputEmail">Email</label>
 			    <div class="controls">
-			      <input type="text" id="inputEmail" placeholder="Email">
+			      <input type="text" id="inputEmail" placeholder="Email" ng-model="username">
 			    </div>
 			  </div>
 			  <div class="control-group">
 			    <label class="control-label" for="inputPassword">Password</label>
 			    <div class="controls">
-			      <input type="password" id="inputPassword" placeholder="Password">
+			      <input type="password" id="inputPassword" placeholder="Password" ng-model="password">
 			    </div>
 			  </div>
 			  <div class="control-group">
 			    <div class="controls">
 			      <label class="checkbox">
-			        <input type="checkbox"> Remember me
+			        <input type="checkbox" ng-model="remember_me"> Remember me
 			      </label>
-			      <button type="submit" class="btn">Sign in</button>
+			      <button type="submit" class="btn" ng-click="log_user_in()">Sign in</button>
 			    </div>
 			  </div>
+			  <div class="alert alert-error" ng-show="login_failed_msg != ''">{{login_failed_msg}}</div>
+
 			</form>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+		LoginController = function($scope, $http) {
+			$scope.login_failed_msg = '';
+			
+			$scope.log_user_in = function() {
+				var data = {
+					mode: 'mode_login',
+					username: $scope.username,
+					password: $scope.password,
+					remember_me: $scope.remember_me
+				};
+
+				$http.post('login_services.php', data).success(
+					function(data) {
+						$scope.login_failed_msg = data['err'];
+
+						if (data['err'] == '') {
+							window.location = 'moneymanager.php';
+						}
+					}).error(
+					function() {
+
+					});
+			}
+		}
+	</script>
 
 </body>
 </html>

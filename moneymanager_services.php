@@ -6,10 +6,13 @@ $a = new Authentication();
 $a->security_guard();
 unset($a);
 
+const MODE_LOGIN = 'mode_login';
 const MODE_GET_NARRATIONS = 'mode_get_narrations';
 const MODE_ADD_NARRATION = 'mode_add_narration';
+
 const DATA_narration = 'narration';
 const DATA_params = 'params';
+const MODIFIED_BY = 'modified_by';
 
 $request_params = NULL;
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -27,6 +30,10 @@ if (!array_key_exists(MODE, $request_params)) {
 $mode = $request_params[MODE];
 
 switch ($mode) {
+	// case MODE_LOGIN:
+	// 	log_user_in($request_params);
+	// 	break;
+
 	case MODE_GET_NARRATIONS:
 		get_narrations($request_params);
 		break;
@@ -40,6 +47,14 @@ switch ($mode) {
 		break;
 }
 
+// function log_user_in($request_params) {
+// 	$username = $request_params[USERNAME];
+// 	$password = $request_params[PASSWORD];
+
+// 	$a = new Authentication();
+// 	$a->log_user_in($username, $password);
+// }
+
 function get_narrations($request_params) {
 	$params = json_decode($request_params[DATA_params], true);
 	$params[USERNAME] = get_username();
@@ -51,7 +66,11 @@ function get_narrations($request_params) {
 
 function add_narration($request_params) {
 	$narration = $request_params[DATA_narration];
-	$narration[USERNAME] = get_username();
+
+	$username = get_username();
+
+	$narration[USERNAME] = $username;
+	$narration[MODIFIED_BY] = $username;
 
 	$m = new MongoWrapper();
 
