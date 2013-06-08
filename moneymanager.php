@@ -226,7 +226,16 @@
 		  	<span class="label_help">Ex: 'child' - to see all expenses on child</span>
 
 		  	<div>
+		  		
+	  			<div class="input-append">
+		  			<input type="text" ng-model="new_tag" name="new_tag" placeholder="Enter tag" required> 
+		  			<button type="submit" class="btn btn-success" ng-click="add_new_tag()" ng-disabled="new_tag == undefined"><i class="icon-plus icon-white"></i></button>
+		  		</div>
+	  		
 
+		  		<ul>
+		  			<li ng-repeat="(key, tag) in narration_tags">{{tag}} <i class="icon-remove"></i></li>
+		  		</ul>
 		  	</div>
 		  </div>
 		  

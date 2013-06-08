@@ -27,6 +27,9 @@ MoneyController = function($scope, $http) {
 	$scope.monthly_budget = 10000;
 	$scope.narration_id = '';
 
+	$scope.all_tags = [];
+	$scope.narration_tags = [];
+
 	// Populate date dropdown
 	$scope.populate_days_dd = function() {
 		var no_of_days;
@@ -226,6 +229,33 @@ MoneyController = function($scope, $http) {
 		$scope.inc_exp = '';
 
 		show_add_narration();
+	}
+
+
+	function get_tags() {
+		var params = {mode: 'mode_get_tags'}
+		$http({
+			method: 'GET',
+			url: 'moneymanager_services.php',
+			params: params
+		}).success(function(data) {
+
+			if (data['err'] == '') {
+				$scope.all_tags = data['tags'];
+			}
+
+		});
+	}
+
+	$scope.add_new_tag = function () {
+		var tag = $scope.new_tag;
+		$scope.narration_tags.push(tag);
+
+		if ($scope.all_tags.indexOf(tag) == -1) {
+			$scope.all_tags.push(tag);
+		}
+
+		$scope.new_tag = undefined;
 	}
 
 };

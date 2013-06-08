@@ -7,7 +7,6 @@ const MODE = 'mode';
 const MODE_LOGIN = 'mode_login';
 const MODE_AUTH = 'mode_auth';
 
-const USERNAME = 'username';
 const PASSWORD = 'password';
 const AUTH_KEY = 'auth_key';
 
@@ -75,7 +74,15 @@ class Authentication {
 	}
 
 	public function get_username() {
-		return $_COOKIE[USERNAME];
+		$username = $_COOKIE[USERNAME];
+
+		if ($username == NULL || $username == '') {
+			$this->clear_cookies();
+			exit();
+		}
+
+		return $username;
+		
 	}
 
 	private function save_login_cookies($username) {

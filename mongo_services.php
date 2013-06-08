@@ -22,6 +22,10 @@ class MongoWrapper {
 			case COLL_NARRATIONS:
 				return $db->narrations;
 				break;
+
+			case COLL_TAGS:
+				return $db->tags;
+				break;
 			
 			default:
 				# code...
