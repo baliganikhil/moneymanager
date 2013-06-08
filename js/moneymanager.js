@@ -1,18 +1,18 @@
 MoneyController = function($scope, $http) {
-	$scope.all_months = {
-						'1': 'January',
-						'2': 'February',
-						'3': 'March',
-						'4': 'April',
-						'5': 'May',
-						'6': 'June',
-						'7': 'July',
-						'8': 'August',
-						'9': 'September',
-						'10': 'October',
-						'11': 'November',
-	 					'12': 'December'
-	 					};
+	$scope.all_months = [
+						{'index': '1', 'month': 'January'},
+						{'index': '2', 'month': 'February'},
+						{'index': '3', 'month': 'March'},
+						{'index': '4', 'month': 'April'},
+						{'index': '5', 'month': 'May'},
+						{'index': '6', 'month': 'June'},
+						{'index': '7', 'month': 'July'},
+						{'index': '8', 'month': 'August'},
+						{'index': '9', 'month': 'September'},
+						{'index': '10', 'month': 'October'},
+						{'index': '11', 'month': 'November'},
+	 					{'index': '12', 'month': 'December'}
+	 					];
 
 
 	$scope.all_years = ['2013', '2014'];
@@ -29,6 +29,7 @@ MoneyController = function($scope, $http) {
 
 	$scope.all_tags = [];
 	$scope.narration_tags = [];
+	$scope.new_tag = undefined;
 
 	// Populate date dropdown
 	$scope.populate_days_dd = function() {
@@ -44,7 +45,10 @@ MoneyController = function($scope, $http) {
 
 		$scope.all_days = [];
 		for (var i = 1; i <= no_of_days; i++) {
-			$scope.all_days.push(i);
+			var date = {};
+			date['index'] = i;
+			date['date'] = i;
+			$scope.all_days.push(date);
 		}
 	}
 
@@ -134,7 +138,8 @@ MoneyController = function($scope, $http) {
 
 		var data = {
 						mode: 'mode_add_narration',
-						narration: narration
+						narration: narration,
+						tags: $scope.all_tags
 					};
 
 		$http({
@@ -242,13 +247,17 @@ MoneyController = function($scope, $http) {
 
 			if (data['err'] == '') {
 				$scope.all_tags = data['tags'];
+				console.log(data['tags'])
+				$('#new_tag').typeahead({source: $scope.all_tags});
 			}
 
 		});
 	}
 
+	get_tags();
+
 	$scope.add_new_tag = function () {
-		var tag = $scope.new_tag;
+		var tag = $('#new_tag').val();
 		$scope.narration_tags.push(tag);
 
 		if ($scope.all_tags.indexOf(tag) == -1) {
@@ -257,6 +266,10 @@ MoneyController = function($scope, $http) {
 
 		$scope.new_tag = undefined;
 	}
+
+	$('#narration_category').on('blur', function() {
+		$scope.category = $(this).val();
+	});
 
 };
 

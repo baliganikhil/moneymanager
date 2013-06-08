@@ -16,6 +16,7 @@ const MODE_ADD_NARRATION = 'mode_add_narration';
 const MODE_DELETE_NARRATION = 'mode_delete_narration';
 
 const MODE_GET_TAGS = 'mode_get_tags';
+const MODE_SAVE_TAGS = 'mode_save_tags';
 
 const DATA_narration = 'narration';
 const DATA_params = 'params';
@@ -55,6 +56,10 @@ switch ($mode) {
 	case MODE_GET_TAGS:
 		get_tags();
 		break;
+
+	case MODE_SAVE_TAGS:
+		save_tags($request_params);
+		break;
 	
 	default:
 		echo "No Mode, No Action";
@@ -80,6 +85,8 @@ function add_narration($request_params) {
 	$n = new narration_services();
 
 	$n->add_narration($narration);
+
+	save_tags($request_params);
 }
 
 function delete_narration($request_params) {
@@ -90,6 +97,12 @@ function delete_narration($request_params) {
 function get_tags() {
 	$t = new tag_services();
 	$t->get_tags();
+}
+
+function save_tags($request_params) {
+	$t = new tag_services();
+	$tags = $request_params[TAGS];
+	$t->save_tags($tags);
 }
 
 function get_username() {

@@ -56,7 +56,7 @@
 
 			<div class="well">
 				<form class="form-horizontal">
-					<select class='all_months' ng-model="mt_month" ng-change="month_changed()" ng-options="key as each_month for (key, each_month) in all_months">
+					<select class='all_months' ng-model="mt_month" ng-change="month_changed()" ng-options="m.index as m.month for m in all_months">
 					</select>
 
 					<select class='all_years span2' ng-model="mt_year" ng-options="each_year as each_year for (key, each_year) in all_years">
@@ -113,7 +113,7 @@
 			<table style="width: 75%">
 				<tr>
 					<td>
-						<select class='all_months' ng-options="key as each_month for (key, each_month) in all_months" ng-model="budget_month">
+						<select class='all_months' ng-options="m.index as m.month for m in all_months" ng-model="budget_month">
 						</select>
 					</td>
 
@@ -196,9 +196,9 @@
 			<hr>
 
 			<div>
-				<select class="span2" ng-model="narration_date" required ng-options="key as each_day for (key, each_day) in all_days">
+				<select class="span2" ng-model="narration_date" required ng-options="d.index as d.date for d in all_days">
 				</select>
-				<strong>{{all_months[mt_month]}}, {{mt_year}}</strong>
+				<strong>{{all_months[mt_month - 1]['month']}}, {{mt_year}}</strong>
 				
 				<hr>
 				
@@ -228,7 +228,7 @@
 		  	<div>
 		  		
 	  			<div class="input-append">
-		  			<input type="text" ng-model="new_tag" name="new_tag" placeholder="Enter tag" required> 
+		  			<input type="text" ng-model="new_tag" name="new_tag" id="new_tag" placeholder="Enter tag"> 
 		  			<button type="submit" class="btn btn-success" ng-click="add_new_tag()" ng-disabled="new_tag == undefined"><i class="icon-plus icon-white"></i></button>
 		  		</div>
 	  		

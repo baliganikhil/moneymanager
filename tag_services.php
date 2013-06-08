@@ -28,7 +28,7 @@ class tag_services {
 			$response['err'] = 'Tags could not be saved';
 		}
 
-		echo json_encode($response);
+		// echo json_encode($response);
 
 	}
 
@@ -38,16 +38,16 @@ class tag_services {
 		$m = new MongoWrapper();
 		$coll_tags = $m->get_collection(COLL_TAGS);
 
-		$record = $coll_tags->findOne(array($username));
+		$record = $coll_tags->findOne(array(USERNAME => $username));
 
 		$response = array();
 
-		if ($r == NULL) {
+		if ($record == NULL) {
 			$response['err'] = '';
 			$response[TAGS] = array();
 		} else {
 			$response['err'] = '';
-			$response[TAGS] = $record;
+			$response[TAGS] = $record[TAGS];
 		}
 
 		echo json_encode($response);		
@@ -56,6 +56,7 @@ class tag_services {
 	private function get_username() {
 		$a = new Authentication();
 		$username = $a->get_username();
+		return $username;
 	}
 
 }
