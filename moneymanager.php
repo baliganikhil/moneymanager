@@ -57,7 +57,6 @@
 			<div class="well">
 				<form class="form-horizontal">
 					<select class='all_months' ng-model="mt_month" ng-change="month_changed()" ng-options="key as each_month for (key, each_month) in all_months">
-						<!-- <option ng-repeat="(key, each_month) in all_months" value="{{key + 1}}">{{each_month}}</option> -->
 					</select>
 
 					<select class='all_years span2' ng-model="mt_year" ng-options="each_year as each_year for (key, each_year) in all_years">
@@ -115,13 +114,11 @@
 				<tr>
 					<td>
 						<select class='all_months' ng-options="key as each_month for (key, each_month) in all_months" ng-model="budget_month">
-							<!-- <option ng-repeat="(key, each_month) in all_months" value="{{key + 1}}">{{each_month}}</option> -->
 						</select>
 					</td>
 
 					<td>
 						<select class='all_years span2' ng-options="key as each_year for (key, each_year) in all_years" ng-model="budget_year">
-							<!-- <option ng-repeat="(key, each_year) in all_years" value="{{key + 1}}">{{each_year}}</option> -->
 						</select>
 					</td>
 				</tr>
@@ -187,9 +184,8 @@
 
 		<div>
 			<select class="span2" ng-model="narration_date" required ng-options="key as each_day for (key, each_day) in all_days">
-				<!-- <option ng-repeat="(key, each_day) in all_days" value="{{each_day}}">{{each_day}}</option> -->
 			</select>
-			<!--input type="text" id="narration_date" placeholder="Date" class="span2" ng-model="narration_date" required--> <strong>{{all_months[mt_month - 1]}}, {{mt_year}}</strong>
+			<strong>{{all_months[mt_month]}}, {{mt_year}}</strong>
 			
 			<hr>
 			

@@ -11,6 +11,7 @@ unset($a);
 const MODE_LOGIN = 'mode_login';
 const MODE_GET_NARRATIONS = 'mode_get_narrations';
 const MODE_ADD_NARRATION = 'mode_add_narration';
+const MODE_DELETE_NARRATION = 'mode_delete_narration';
 
 const DATA_narration = 'narration';
 const DATA_params = 'params';
@@ -42,6 +43,10 @@ switch ($mode) {
 	case MODE_ADD_NARRATION:
 		add_narration($request_params);
 		break;
+
+	case MODE_DELETE_NARRATION:
+		delete_narration($request_params);
+		break;
 	
 	default:
 		echo "No Mode, No Action";
@@ -63,11 +68,15 @@ function add_narration($request_params) {
 	$username = get_username();
 
 	$narration[USERNAME] = $username;
-	$narration[MODIFIED_BY] = $username;
 
 	$n = new narration_services();
 
 	$n->add_narration($narration);
+}
+
+function delete_narration($request_params) {
+	$n = new narration_services();
+	$n->delete_narration($request_params);
 }
 
 function get_username() {

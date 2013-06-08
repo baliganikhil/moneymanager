@@ -1,5 +1,20 @@
 MoneyController = function($scope, $http) {
-	$scope.all_months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November','December'];
+	$scope.all_months = {
+						'1': 'January',
+						'2': 'February',
+						'3': 'March',
+						'4': 'April',
+						'5': 'May',
+						'6': 'June',
+						'7': 'July',
+						'8': 'August',
+						'9': 'September',
+						'10': 'October',
+						'11': 'November',
+	 					'12': 'December'
+	 					};
+
+
 	$scope.all_years = ['2013', '2014'];
 	$scope.username = username;
 
@@ -95,7 +110,6 @@ MoneyController = function($scope, $http) {
 		var full_date = date + '/' + month + '/' + year;
 
 		var narration = {
-							_id: $scope.narration_id,
 							username: '',
 							full_date: full_date,
 							date: date,
@@ -109,8 +123,11 @@ MoneyController = function($scope, $http) {
 							notes: $scope.notes
 						};
 
-						console.log(narration)
-						return;
+		if ($scope.narration_id != '') {
+			narration['_id'] = $scope.narration_id['$id'];
+		}
+
+		// console.log(narration);return;
 
 		var data = {
 						mode: 'mode_add_narration',
@@ -124,7 +141,8 @@ MoneyController = function($scope, $http) {
 		}).success(function(data) {
 
 			if (data['err'] == null) {
-				$scope.monthly_data.push(data['data']);
+				// $scope.monthly_data.push(data['data']);
+				$scope.get_narrations();
 				$('.modal').modal('hide');
 			}
 		});
@@ -150,14 +168,15 @@ MoneyController = function($scope, $http) {
 	$scope.edit_narration = function(index) {
 		var cur_narration = $scope.monthly_data[index];
 
+		console.log(cur_narration);
+
+		$scope.narration_id = cur_narration['_id'];
 		$scope.narration = cur_narration['narration'];
 		$scope.category = cur_narration['category'];
 
 		$scope.mt_year = cur_narration['year'];
 		$scope.mt_month = cur_narration['month'];
 		$scope.narration_date = cur_narration['date'];
-
-		console.log("==> " + $scope.narration_date);
 
 		$scope.amount = cur_narration['amount'];
 		$scope.notes = cur_narration['notes'];
@@ -169,7 +188,27 @@ MoneyController = function($scope, $http) {
 
 	$scope.delete_narration = function(index) {
 		if (confirm("Are you sure?")) {
-			$scope.monthly_data.splice(index, 1);
+			var _id = $scope.monthly_data[index]['_id']['$id'];
+
+			var data = {};
+			data['mode'] = 'mode_delete_narration';
+			data['_id'] = _id;
+
+			// console.log($scope.monthly_data);return;
+
+			$http({
+				method: "POST",
+				url: 'moneymanager_services.php',
+				data: data
+			}).success(function(data) {
+
+				if (data['err'] == '') {
+					console.log($scope.monthly_data);
+					console.log(index);
+					$scope.monthly_data.splice(index, 1);
+				}
+			});
+			
 		}
 	}
 
