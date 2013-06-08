@@ -3,6 +3,7 @@
 # Collections
 const COLL_PEOPLE = 'people';
 const COLL_NARRATIONS = 'narrations';
+const COLL_TAGS = 'tags';
 
 const MONTH = 'month';
 const YEAR = 'year';

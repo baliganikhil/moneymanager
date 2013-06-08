@@ -162,49 +162,81 @@
 
 	<form class="form" name="FormAddNarration">
 
-		<input placeholder="Narration" type="text" ng-model="narration" required> <span class="label_help">E.g. Dinner at McDonalds</span> <br>
-		<input placeholder="Category" type="text" ng-model="category" required> <span class="label_help">E.g. Fuel, restaurant, etc.</span>
 
-		<hr>
+		<ul class="nav nav-tabs" id="tabs_add_narration">
+		  <li class="active"><a href="#basic">Basic</a></li>
+		  <li ng-show="inc_exp == 'exp'"><a href="#tab_investment">Investment</a></li>
 
-		<div>
-			<input placeholder="Amount" type="text" class="span2" ng-model="amount" required>
+		  <li><a href="#tab_tags">Tags</a></li>
+		  
+		  <li><a href="#more_info">More</a></li>
+		</ul>
+		 
+		<div class="tab-content">
+		  <div class="tab-pane active" id="basic">
 
-			<div class="btn-group" data-toggle="buttons-radio">
-				<button type="button" class="btn btn-success" ng-click="inc_exp = 'inc'" ng-class="{active: inc_exp == 'inc'}">Income</button>
-				<button type="button" class="btn btn-danger" ng-click="inc_exp = 'exp'" ng-class="{active: inc_exp == 'exp'}">Expense</button>
-			</div>
+		  	<input placeholder="Narration" type="text" ng-model="narration" required> <span class="label_help">E.g. Dinner at McDonalds</span> <br>
+			<input placeholder="Category" type="text" ng-model="category" required id="narration_category"> <span class="label_help">E.g. Fuel, restaurant, etc.</span>
 
-			<div ng-show="inc_exp == 'exp'">
-				<label class="checkbox"><input type="checkbox" id="avoidable" name="avoidable" ng-model="is_avoidable" value="true"> Avoidable Expense?</label>
-			</div>
-		</div>
-
-		<hr>
-
-		<div>
-			<select class="span2" ng-model="narration_date" required ng-options="key as each_day for (key, each_day) in all_days">
-			</select>
-			<strong>{{all_months[mt_month]}}, {{mt_year}}</strong>
-			
 			<hr>
-			
-			<label class="checkbox"><input type="checkbox" id="recurring" name="recurring" ng-model="add_recurring"> Recurring</label>
 
-			<div ng-show="add_recurring">
-				Repeats every <input type="text" class="span1"> 
-				<select class="span2">
-					<option>Days</option>
-					<option>Weeks</option>
-					<option>Months</option>
-					<option>Years</option>
-				</select>
+			<div>
+				<input placeholder="Amount" type="text" class="span2" ng-model="amount" required>
+
+				<div class="btn-group" data-toggle="buttons-radio">
+					<button type="button" class="btn btn-success" ng-click="inc_exp = 'inc'" ng-class="{active: inc_exp == 'inc'}">Income</button>
+					<button type="button" class="btn btn-danger" ng-click="inc_exp = 'exp'" ng-class="{active: inc_exp == 'exp'}">Expense</button>
+				</div>
+
+				<div ng-show="inc_exp == 'exp'">
+					<label class="checkbox"><input type="checkbox" id="avoidable" name="avoidable" ng-model="is_avoidable" value="true"> Avoidable Expense?</label>
+				</div>
 			</div>
+
+			<hr>
+
+			<div>
+				<select class="span2" ng-model="narration_date" required ng-options="key as each_day for (key, each_day) in all_days">
+				</select>
+				<strong>{{all_months[mt_month]}}, {{mt_year}}</strong>
+				
+				<hr>
+				
+				<label class="checkbox"><input type="checkbox" id="recurring" name="recurring" ng-model="add_recurring"> Recurring</label>
+
+				<div ng-show="add_recurring">
+					Repeats every <input type="text" class="span1"> 
+					<select class="span2">
+						<option>Days</option>
+						<option>Weeks</option>
+						<option>Months</option>
+						<option>Years</option>
+					</select>
+				</div>
+			</div>
+
+		  </div>
+		  
+		  <div class="tab-pane" id="tab_investment" ng-show="inc_exp == 'exp'">
+		  	<label class="checkbox"><input type="checkbox" id="investment" name="investment" ng-model="is_investment" value="true"> Is Investment?</label>
+		  </div>
+
+		  <div class="tab-pane" id="tab_tags">
+		  	<h4>Tags help in searching better</h4>
+		  	<span class="label_help">Ex: 'child' - to see all expenses on child</span>
+
+		  	<div>
+
+		  	</div>
+		  </div>
+		  
+		  <div class="tab-pane" id="more_info">
+		  	<div>
+				<textarea class="span6" rows="3" placeholder="Notes" ng-model="notes"></textarea>
+			</div>
+		  </div>
 		</div>
 
-		<div>
-			<textarea class="span6" rows="3" placeholder="Notes" ng-model="notes"></textarea>
-		</div>
 
 		<div class="btn_toolbar">
 			<button class="btn">Cancel</button>
@@ -216,9 +248,17 @@
 </div>
 
 
-
-	<script type="text/javascript" src="js/moneymanager.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/moneymanager.js"></script>
+
+	<script type="text/javascript">
+		$(function () {
+		    $('#tabs_add_narration a').click(function (e) {
+		    	e.preventDefault();
+  				$(this).tab('show');
+		  });
+		});
+	</script>
 
 	
 	<style type="text/css">

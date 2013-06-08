@@ -248,3 +248,6 @@ function show_monthly_budget() {
 $('.show_monthly_budget').on('click', function() {
 	show_monthly_budget();
 });
+
+var all_categories = ["bike loan", "books", "car loan", "clothes", "college", "electricity", "electronics", "emi", "fitness and gym", "fuel", "games", "gas", "gift", "house loan", "house rent", "internet bill", "medical", "mobile", "mobile recharge", "movies", "music", "other", "party", "personal loan", "repair and maintenance", "restaurant", "school", "shoes", "shopping", "software", "tax", "telephone bill", "vehicle", "watch", "water"];
+$('#narration_category').typeahead({source: all_categories});
