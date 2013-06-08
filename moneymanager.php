@@ -50,7 +50,7 @@
 
 	<div class="span9">
 
-		<div id="monthly_table" style="border: solid 1px #eee; padding: 15px;" class="hide">
+		<div id="monthly_table" style="border: solid 1px #eee; padding: 15px;">
 
 			<div class="well">
 				<form class="form-horizontal">
@@ -102,7 +102,7 @@
 			</table>
 		</div>
 
-		<div id="monthly_ious" style="border: solid 1px #eee; padding: 15px;">
+		<div id="monthly_ious" style="border: solid 1px #eee; padding: 15px;" class="hide">
 			<div class="well">
 				<form class="form-horizontal">
 					<select class='all_months' ng-model="mt_month" ng-change="month_changed()" ng-options="m.index as m.month for m in all_months">
@@ -294,7 +294,7 @@
 
 </div>
 
-<div id="add_iou" class="modal span6 offset4 row" ng-controller="ADDIOUController">
+<div id="add_iou" class="modal span6 offset4 row hide" ng-controller="ADDIOUController">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
 	<h3>Add IOU</h3>
@@ -321,12 +321,13 @@
 	<input class="span7" type="text" placeholder="Narration">
 
 	<div class="form-horizontal">
+		<form>
+			<input type="text" placeholder="Person" class="span3" ng-model="person"> 
+			<input type="text" placeholder="Amount" class="span2" ng-model="amount" ng-pattern="/^[0-9]+$/"> 
+			<button type="submit" class="btn btn-success" ng-click="add_iou_to_cur_iou()" ng-disabled="person == '' || ng-amount == ''"><i class="icon-white icon-plus"></i></button>
+		</form>
 
-		<input type="text" placeholder="Person" class="span3" ng-model="person"> 
-		<input type="text" placeholder="Amount" class="span2" ng-model="amount"> 
-		<button class="btn btn-success" ng-click="add_iou_to_cur_iou()"><i class="icon-white icon-plus"></i></button>
-
-		<div>
+		<div style="height: 200px; overflow-y: scroll;">
 			<div class="row" ng-repeat="(key, each_iou) in cur_iou" style="margin-top: 10px;">
 				<div class="span3" ng-class="{struck: true == each_iou.paid}">{{each_iou.person}}</div>
 				<div class="span2" ng-class="{struck: true == each_iou.paid}">{{each_iou.amount}}</div>
