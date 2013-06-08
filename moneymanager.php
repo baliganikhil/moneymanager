@@ -56,15 +56,15 @@
 
 			<div class="well">
 				<form class="form-horizontal">
-					<select class='all_months' ng-model="mt_month" ng-change="month_changed()">
-						<option ng-repeat="(key, each_month) in all_months" value="{{key + 1}}">{{each_month}}</option>
+					<select class='all_months' ng-model="mt_month" ng-change="month_changed()" ng-options="key as each_month for (key, each_month) in all_months">
+						<!-- <option ng-repeat="(key, each_month) in all_months" value="{{key + 1}}">{{each_month}}</option> -->
 					</select>
 
-					<select class='all_years span2' ng-model="mt_year">
-						<option ng-repeat="(key, each_year) in all_years" value="{{each_year}}">{{each_year}}</option>
+					<select class='all_years span2' ng-model="mt_year" ng-options="each_year as each_year for (key, each_year) in all_years">
+						<!-- <option ng-repeat="(key, each_year) in all_years" value="{{each_year}}">{{each_year}}</option> -->
 					</select>
 
-					<button class="btn btn-success pull-right" id="btn_add_narration"><i class="icon-plus icon-white"></i> Item</button>
+					<button class="btn btn-success pull-right" id="btn_add_narration" ng-click="btn_add_narration()"><i class="icon-plus icon-white"></i> Item</button>
 				</form>
 			</div>
 
@@ -93,8 +93,8 @@
 					<td>{{each_row.full_date}}</td>
 					<td>{{each_row.narration}}</td>
 					<td ng-class="{label_green: each_row.inc_exp == 'inc', label_red: each_row.inc_exp == 'exp'}">{{each_row.amount}}</td>
-					<td><i class="icon-pencil"></i></td>
-					<td><i class="icon-remove"></i></td>
+					<td><i class="icon-pencil" ng-click="edit_narration(sl)"></i></td>
+					<td><i class="icon-remove" ng-click="delete_narration(sl)"></i></td>
 				</tr>
 
 				<tr ng-show="monthly_data.length == 0">
@@ -114,14 +114,14 @@
 			<table style="width: 75%">
 				<tr>
 					<td>
-						<select class='all_months'>
-							<option ng-repeat="(key, each_month) in all_months" value="{{key + 1}}">{{each_month}}</option>
+						<select class='all_months' ng-options="key as each_month for (key, each_month) in all_months" ng-model="budget_month">
+							<!-- <option ng-repeat="(key, each_month) in all_months" value="{{key + 1}}">{{each_month}}</option> -->
 						</select>
 					</td>
 
 					<td>
-						<select class='all_years span2'>
-							<option ng-repeat="(key, each_year) in all_years" value="{{key + 1}}">{{each_year}}</option>
+						<select class='all_years span2' ng-options="key as each_year for (key, each_year) in all_years" ng-model="budget_year">
+							<!-- <option ng-repeat="(key, each_year) in all_years" value="{{key + 1}}">{{each_year}}</option> -->
 						</select>
 					</td>
 				</tr>
@@ -186,8 +186,8 @@
 		<hr>
 
 		<div>
-			<select class="span2" ng-model="narration_date" required>
-				<option ng-repeat="(key, each_day) in all_days" value="{{each_day}}">{{each_day}}</option>
+			<select class="span2" ng-model="narration_date" required ng-options="key as each_day for (key, each_day) in all_days">
+				<!-- <option ng-repeat="(key, each_day) in all_days" value="{{each_day}}">{{each_day}}</option> -->
 			</select>
 			<!--input type="text" id="narration_date" placeholder="Date" class="span2" ng-model="narration_date" required--> <strong>{{all_months[mt_month - 1]}}, {{mt_year}}</strong>
 			
@@ -220,182 +220,8 @@
 </div>
 
 
-<script type="text/javascript">
 
-	// $('#add_narration #narration_date').datepicker({
-	// 	format: 'dd/mm/yyyy'
-	// });
-
-
-	MoneyController = function($scope, $http) {
-		$scope.all_months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November','December'];
-		$scope.all_years = ['2013', '2014'];
-		$scope.username = username;
-
-		var d = new Date();
-		var cur_month = d.getMonth() + 1;
-
-		$scope.mt_month = String(cur_month);
-		$scope.mt_year = "2013";
-
-		$scope.monthly_budget = 10000;
-
-		// Populate date dropdown
-		$scope.populate_days_dd = function() {
-			var no_of_days;
-			var months_31 = ["1", "3", "5", "7", "8", "10", "12"];
-			if (months_31.indexOf($scope.mt_month) != -1) {
-				no_of_days = 31;
-			} else if (cur_month == "2") {
-				no_of_days = 28;
-			} else {
-				no_of_days = 30;
-			}
-
-			$scope.all_days = [];
-			for (var i = 1; i <= no_of_days; i++) {
-				$scope.all_days.push(i);
-			}
-		}
-
-		$scope.populate_days_dd();
-
-		$scope.inc_exp = '';
-
-		$scope.month_changed = function() {
-			$scope.get_narrations();
-			$scope.populate_days_dd();			
-		}
-
-		$scope.get_narrations = function() {
-			var data = {};
-			data['month'] = $scope.mt_month;
-			data['year'] = $scope.mt_year;
-
-			var params = {};
-			params['mode'] = 'mode_get_narrations';
-			params['params'] = data;
-
-			$http({
-				method: 'GET',
-				url: 'moneymanager_services.php',
-				params: params
-			}).success(function(data) {
-
-				if (data['err'] == null) {
-					$scope.monthly_data = data['data'];
-					evaluate_totals_budget();
-				}
-
-			});
-		}
-
-		function evaluate_totals_budget() {
-			$scope.total_income = 0;
-			$scope.total_expenses = 0;
-
-			$($scope.monthly_data).each(function(key, cur_month_data) {
-				var amount = parseFloat(cur_month_data['amount'], 10);
-
-				if (cur_month_data['inc_exp'] == 'inc') {
-					$scope.total_income += amount;
-				} else {
-					$scope.total_expenses += amount;
-				}
-			});
-
-			console.log("Income: " + $scope.total_income + "  Expense: " + $scope.total_expenses);
-
-			if ($scope.total_expenses <= $scope.monthly_budget) {
-				var width = ($scope.total_expenses * 100) / $scope.monthly_budget;
-				width += '%';
-				$('#budget_meter > .bar').css('width', width);
-			} else {
-				// Budget overshot
-			}
-		}
-
-		$scope.get_narrations();
-
-		$scope.add_narration = function() {
-			var date = $scope.narration_date;
-			var month = $scope.mt_month
-			var year = $scope.mt_year;
-
-			var full_date = date + '/' + month + '/' + year;
-
-			var narration = {
-								username: '',
-								full_date: full_date,
-								date: date,
-								month: month,
-								year: year,
-								narration: $scope.narration,
-								category: $scope.category,
-								amount: $scope.amount,
-								inc_exp: $scope.inc_exp,
-								notes: $scope.notes
-							};
-
-			var data = {
-							mode: 'mode_add_narration',
-							narration: narration
-						};
-
-			$http({
-				method: "POST",
-				url: 'moneymanager_services.php',
-				data: data
-			}).success(function(data) {
-
-				if (data['err'] == null) {
-					$scope.monthly_data.push(data['data']);
-					$('.modal').modal('hide');
-				}
-			});
-		}
-
-		$scope.logout = function() {
-			var data = {
-							mode: 'mode_logout'
-						};
-
-			$http({
-				method: "POST",
-				url: 'login_services.php',
-				data: data
-			}).success(function(data) {
-
-				if (data['err'] == null) {
-					window.location = 'login.php';
-				}
-			});
-		}
-
-	};
-
-	
-
-	function show_add_narration() {
-		$('#add_narration').modal({background: 'static'});
-	}
-
-	function show_monthly_budget() {
-		$('#monthly_budget').modal({background: 'static'});
-	}
-
-	$('#btn_add_narration').on('click', function() {
-		show_add_narration();
-	});
-
-	$('.show_monthly_budget').on('click', function() {
-		show_monthly_budget();
-	});
-
-
-	
-</script>
-
+	<script type="text/javascript" src="js/moneymanager.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 
 	
