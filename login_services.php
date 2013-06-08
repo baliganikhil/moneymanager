@@ -4,12 +4,13 @@ error_reporting(E_ALL | E_WARNING | E_NOTICE); ini_set('display_errors', 'On');
 require 'authentication_services.php';
 
 const mode_login = 'mode_login';
+const mode_signup = 'mode_signup';
 const MODE_GET_NARRATIONS = 'mode_get_narrations';
 const MODE_ADD_NARRATION = 'mode_add_narration';
 
 const DATA_narration = 'narration';
 const DATA_params = 'params';
-const MODIFIED_BY = 'modified_by';
+// const MODIFIED_BY = 'modified_by';
 
 $request_params = NULL;
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -26,8 +27,22 @@ if (!array_key_exists(MODE, $request_params)) {
 
 $mode = $request_params[MODE];
 
-if ($mode == mode_login) {
-	log_user_in($request_params);
+switch ($mode) {
+	case mode_login:
+		log_user_in($request_params);
+		break;
+
+	case mode_signup:
+		sign_up_user($request_params);
+		break;
+
+	case mode_logout:
+		log_user_out();
+		break;
+	
+	default:
+		# code...
+		break;
 }
 
 function log_user_in($request_params) {
@@ -36,6 +51,19 @@ function log_user_in($request_params) {
 
 	$a = new Authentication();
 	$a->log_user_in($username, $password);
+}
+
+function sign_up_user($request_params) {
+	$username = $request_params[USERNAME];
+	$password = $request_params[PASSWORD];
+
+	$a = new Authentication();
+	$a->sign_up_user($username, $password);
+}
+
+function log_user_out() {
+	$a = new Authentication();
+	$a->log_user_out();
 }
 
 ?>

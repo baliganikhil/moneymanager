@@ -20,6 +20,7 @@ class Authentication {
 			return true;
 		} else {
 			header("Location: login.php");
+			$this->clear_cookies();
 			return false;
 		}
 	}
@@ -35,6 +36,28 @@ class Authentication {
 			$ret = array('err'=> 'Invalid username and/or password');
 		}
 
+		echo json_encode($ret);
+	}
+
+	public function sign_up_user($username, $password) {
+		$ret = NULL;
+
+		$auth_key = $this->get_encrypted($username, $password);
+		$person = array(USERNAME => $username, PASSWORD => $auth_key);
+
+		$m = new MongoWrapper();
+		$m->add_user($person);
+
+		$this->save_login_cookies($username);
+
+		$ret = array('err'=> '');
+		echo json_encode($ret);
+	}
+
+	public function log_user_out() {
+		$this->clear_cookies();
+
+		$ret = array('err'=> '');
 		echo json_encode($ret);
 	}
 
@@ -59,9 +82,12 @@ class Authentication {
 
 		$auth_key = $this->get_password($username);
 
-		// var_dump($auth_key);exit();
-
 		setcookie(AUTH_KEY, $auth_key);
+	}
+
+	private function clear_cookies() {
+		setcookie(USERNAME, "", time() - 3600);
+		setcookie(AUTH_KEY, "", time() - 3600);
 	}
 
 	private function authenticate_user_auth_key($username, $auth_key) {

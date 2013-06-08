@@ -6,6 +6,11 @@ const COLL_NARRATIONS = 'narrations';
 const MONTH = 'month';
 const YEAR = 'year';
 
+const CREATED_AT = 'created_at';
+const MODIFIED_AT = 'modified_at';
+const CREATED_BY = 'created_by';
+const MODIFIED_BY = 'modified_by';
+
 class MongoWrapper {
 
 	public function get_password($username) {
@@ -33,6 +38,47 @@ class MongoWrapper {
 			// Update
 		}
 
+	}
+
+	public function add_user($person) {
+		// Check if user exists
+		$username = $person[USERNAME];
+
+		if ($this->check_if_user_exists($username)) {
+			$response = array();
+			$response['err'] = "This username has already been taken";
+
+			echo json_encode($response);
+			exit();
+		} else {
+			$password = $person[PASSWORD];
+			$timestamp = time();
+			
+			$person_record = array(USERNAME => $username, 
+									PASSWORD => $password, 
+									CREATED_BY => $username, 
+									MODIFIED_BY => $username,
+									CREATED_AT => $timestamp,
+									MODIFIED_AT => $timestamp);
+
+			// Insert
+			$coll_people = $this->get_collection(COLL_PEOPLE);
+			$r = $coll_people->insert($person_record);
+
+			return true;
+		}
+	}
+
+	private function check_if_user_exists($username) {
+		$coll_people = $this->get_collection(COLL_PEOPLE);
+
+		$t = $coll_people->findone(array(USERNAME => $username));
+
+		if ($t == NULL) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public function get_narrations($params) {

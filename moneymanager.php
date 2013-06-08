@@ -3,6 +3,10 @@
 
 	$a = new Authentication();
 	$a->security_guard();
+
+	$username = $a->get_username();
+
+	echo "<script>var username = '" . $username . "';</script>";
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -27,7 +31,8 @@
 	    </ul>
 
 	    <ul class="nav pull-right">
-	    	<li><a href="#">Logout</a></li>
+	    	<li><a href="#">Signed in as: {{username}}</a></li>
+	    	<li ng-click="logout()"><a href="#">Logout</a></li>
 	    </ul>
 	  </div>
 	</div>
@@ -224,6 +229,7 @@
 	MoneyController = function($scope, $http) {
 		$scope.all_months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November','December'];
 		$scope.all_years = ['2013', '2014'];
+		$scope.username = username;
 
 		var d = new Date();
 		var cur_month = d.getMonth() + 1;
@@ -348,6 +354,23 @@
 			});
 		}
 
+		$scope.logout = function() {
+			var data = {
+							mode: 'mode_logout'
+						};
+
+			$http({
+				method: "POST",
+				url: 'login_services.php',
+				data: data
+			}).success(function(data) {
+
+				if (data['err'] == null) {
+					window.location = 'login.php';
+				}
+			});
+		}
+
 	};
 
 	
@@ -369,51 +392,7 @@
 	});
 
 
-	AddNarrationController = function($scope, $http) {
-
-
-		// $scope.add_narration = function() {
-		// 	console.log($scope.mt_year);
-		// 	return;
-
-		// 	var full_date = $scope.full_date;
-		// 	split_date = full_date.split('/');
-
-		// 	date = split_date[0];
-		// 	month = split_date[1];
-		// 	year = split_date[2];
-
-		// 	var narration = {
-		// 						username: '',
-		// 						full_date: $scope.full_date,
-		// 						date: date,
-		// 						month: month,
-		// 						year: year,
-		// 						narration: $scope.narration,
-		// 						category: $scope.category,
-		// 						amount: $scope.amount,
-		// 						inc_exp: $scope.inc_exp,
-		// 						notes: $scope.notes
-		// 					};
-
-		// 	var data = {
-		// 					mode: 'mode_add_narration',
-		// 					narration: narration
-		// 				};
-
-		// 	$http({
-		// 		method: "POST",
-		// 		url: 'moneymanager_services.php',
-		// 		data: data
-		// 	}).success(function(data) {
-
-		// 		if (data['err'] == null) {
-		// 			$scope.monthly_data.push(data['data']);
-		// 			$('.modal').modal('hide');
-		// 		}
-		// 	});
-		// }
-	}
+	
 </script>
 
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>

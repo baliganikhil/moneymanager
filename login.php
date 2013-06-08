@@ -1,3 +1,11 @@
+<?php
+if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
+	header('Location: moneymanager.php');
+	// echo "Nikhil";
+	exit();
+}
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -11,8 +19,6 @@
 
 </head>
 <body>
-
-	
 
 	<div class="container" ng-controller="LoginController">
 
@@ -35,7 +41,8 @@
 			      <label class="checkbox">
 			        <input type="checkbox" ng-model="remember_me"> Remember me
 			      </label>
-			      <button type="submit" class="btn" ng-click="log_user_in()">Sign in</button>
+			      <button type="submit" class="btn btn-primary" ng-click="log_user_in()">Sign in</button>
+			      <a href="signup.php" class='btn'>Sign Up</a>
 			    </div>
 			  </div>
 			  <div class="alert alert-error" ng-show="login_failed_msg != ''">{{login_failed_msg}}</div>
