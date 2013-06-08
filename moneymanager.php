@@ -147,6 +147,7 @@
 		<ul class="nav nav-tabs nav-stacked">
 			<li><a href="javascript:void(0);" class="label_red">Expenses: {{total_expenses}}</a></li>
 			<li><a href="javascript:void(0);" class="label_green">Income: {{total_income}}</a></li>
+			<li><a href="javascript:void(0);">Monthly Budget: {{monthly_budget}}</a></li>
 		</ul>
 	</div>
 
