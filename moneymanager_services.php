@@ -1,6 +1,8 @@
 <?php
 
+require_once 'constants.php';
 require 'authentication_services.php';
+require 'narration_services.php';
 
 $a = new Authentication();
 $a->security_guard();
@@ -12,7 +14,6 @@ const MODE_ADD_NARRATION = 'mode_add_narration';
 
 const DATA_narration = 'narration';
 const DATA_params = 'params';
-const MODIFIED_BY = 'modified_by';
 
 $request_params = NULL;
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -47,21 +48,13 @@ switch ($mode) {
 		break;
 }
 
-// function log_user_in($request_params) {
-// 	$username = $request_params[USERNAME];
-// 	$password = $request_params[PASSWORD];
-
-// 	$a = new Authentication();
-// 	$a->log_user_in($username, $password);
-// }
-
 function get_narrations($request_params) {
 	$params = json_decode($request_params[DATA_params], true);
 	$params[USERNAME] = get_username();
 
-	$m = new MongoWrapper();
+	$n = new narration_services();
 
-	$m->get_narrations($params);
+	$n->get_narrations($params);
 }
 
 function add_narration($request_params) {
@@ -72,9 +65,9 @@ function add_narration($request_params) {
 	$narration[USERNAME] = $username;
 	$narration[MODIFIED_BY] = $username;
 
-	$m = new MongoWrapper();
+	$n = new narration_services();
 
-	$m->add_narration($narration);
+	$n->add_narration($narration);
 }
 
 function get_username() {

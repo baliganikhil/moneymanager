@@ -1,6 +1,7 @@
 <?php
 
 require 'mongo_services.php';
+require_once 'user_services.php';
 
 const MODE = 'mode';
 const MODE_LOGIN = 'mode_login';
@@ -45,8 +46,8 @@ class Authentication {
 		$auth_key = $this->get_encrypted($username, $password);
 		$person = array(USERNAME => $username, PASSWORD => $auth_key);
 
-		$m = new MongoWrapper();
-		$m->add_user($person);
+		$u = new UserServices();
+		$u->add_user($person);
 
 		$this->save_login_cookies($username);
 
@@ -114,8 +115,8 @@ class Authentication {
 	}
 
 	private function get_password($username) {
-		$m = new MongoWrapper();
-		return $m->get_password($username);
+		$u = new UserServices();
+		return $u->get_password($username);
 	}
 
 	private function get_encrypted($username, $password) {

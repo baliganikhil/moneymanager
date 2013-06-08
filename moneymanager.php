@@ -174,12 +174,12 @@
 			<input placeholder="Amount" type="text" class="span2" ng-model="amount" required>
 
 			<div class="btn-group" data-toggle="buttons-radio">
-				<button type="button" class="btn btn-success" ng-click="inc_exp = 'inc'">Income</button>
-				<button type="button" class="btn btn-danger" ng-click="inc_exp = 'exp'">Expense</button>
+				<button type="button" class="btn btn-success" ng-click="inc_exp = 'inc'" ng-class="{active: inc_exp == 'inc'}">Income</button>
+				<button type="button" class="btn btn-danger" ng-click="inc_exp = 'exp'" ng-class="{active: inc_exp == 'exp'}">Expense</button>
 			</div>
 
 			<div ng-show="inc_exp == 'exp'">
-				<label class="checkbox"><input type="checkbox" id="avoidable" name="avoidable" ng-model="is_avoidable"> Avoidable Expense?</label>
+				<label class="checkbox"><input type="checkbox" id="avoidable" name="avoidable" ng-model="is_avoidable" value="true"> Avoidable Expense?</label>
 			</div>
 		</div>
 

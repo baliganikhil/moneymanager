@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL | E_WARNING | E_NOTICE); ini_set('display_errors', 'On');
 
+require_once 'constants.php';
 require 'authentication_services.php';
 
 const mode_login = 'mode_login';

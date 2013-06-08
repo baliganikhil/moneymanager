@@ -105,8 +105,12 @@ MoneyController = function($scope, $http) {
 							category: $scope.category,
 							amount: $scope.amount,
 							inc_exp: $scope.inc_exp,
+							is_avoidable: $scope.is_avoidable,
 							notes: $scope.notes
 						};
+
+						console.log(narration)
+						return;
 
 		var data = {
 						mode: 'mode_add_narration',
@@ -158,25 +162,30 @@ MoneyController = function($scope, $http) {
 		$scope.amount = cur_narration['amount'];
 		$scope.notes = cur_narration['notes'];
 		$scope.inc_exp = cur_narration['inc_exp'];
-
-		// var date = $scope.narration_date;
-		// var month = $scope.mt_month
-		// var year = $scope.mt_year;
-
-		// var full_date = date + '/' + month + '/' + year;
-
-
-
+		$scope.is_avoidable = cur_narration['is_avoidable'];
 
 		show_add_narration();
 	}
 
 	$scope.delete_narration = function(index) {
-		alert(index)
+		if (confirm("Are you sure?")) {
+			$scope.monthly_data.splice(index, 1);
+		}
 	}
 
 	$scope.btn_add_narration = function() {
 		$scope.narration_id = '';
+
+		$scope.narration = '';
+		$scope.category = '';
+		$scope.narration_date = '';
+
+		$scope.inc_exp = '';
+		$scope.amount = '';
+		$scope.is_avoidable = false;
+		$scope.notes = '';
+		$scope.inc_exp = '';
+
 		show_add_narration();
 	}
 
