@@ -11,6 +11,7 @@ unset($a);
 require_once 'narration_services.php';
 require_once 'tag_services.php';
 require_once 'monthly_budget_services.php';
+require_once 'stat_services.php';
 
 const MODE_LOGIN = 'mode_login';
 
@@ -23,6 +24,8 @@ const MODE_SAVE_TAGS = 'mode_save_tags';
 
 const MODE_GET_MONTHLY_BUDGET = 'mode_get_monthly_budget';
 const MODE_SET_MONTHLY_BUDGET = 'mode_set_monthly_budget';
+
+const MODE_GET_MONTHLY_REPORT = 'mode_get_monthly_report';
 
 const DATA_narration = 'narration';
 const DATA_params = 'params';
@@ -68,7 +71,11 @@ switch ($mode) {
 		break;
 
 	case MODE_SET_MONTHLY_BUDGET:
-		mode_set_monthly_budget($request_params);
+		set_monthly_budget($request_params);
+		break;
+
+	case MODE_GET_MONTHLY_REPORT:
+		get_monthly_report($request_params);
 		break;
 	
 	default:
@@ -115,10 +122,15 @@ function save_tags($request_params) {
 	$t->save_tags($tags);
 }
 
-function mode_set_monthly_budget($request_params) {
+function set_monthly_budget($request_params) {
 	$mbs = new monthly_budget_services();
 	$data = $request_params[DATA];
 	$mbs->save_budget($data);
+}
+
+function get_monthly_report($request_params) {
+	$ss = new stat_services();
+	$ss->get_monthly_report($request_params);
 }
 
 function get_username() {

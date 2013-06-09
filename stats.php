@@ -44,6 +44,7 @@
 
 		<ul class="nav nav-tabs nav-stacked">
 			<li class=""><a href="javascript: void(0);"><i class="icon-search"></i> Search</a></li>
+			<li class="" ng-click="get_monthly_report()"><a href="javascript: void(0);"><i class="icon-search"></i> Monthly Report</a></li>
 		</ul>
 
 	</div>
@@ -60,6 +61,12 @@
 
 <script type="text/javascript" src="flot/jquery.flot.js"></script>
 <script type="text/javascript" src='js/stats.js'></script>
+
+<style type="text/css">
+#placeholder {
+	height: 500px;
+}
+</style>
 
 </body>
 </html>

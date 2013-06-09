@@ -23,4 +23,58 @@ function StatsController($scope, $http) {
 
 	$scope.mt_month = String(cur_month);
 	$scope.mt_year = "2013";
+
+	
+
+	$scope.get_monthly_report = function() {
+		var params = {};
+		params['mode'] = 'mode_get_monthly_report';
+		params['month'] = '6';
+		params['year'] = '2013';
+
+		$http({
+			method: 'GET',
+			url: 'services/moneymanager_services.php',
+			params: params
+		}).success(function(data) {
+			var flot_data = convert_monthly_report_for_flot(data);
+			draw_monthly_report(flot_data);
+
+			console.log(flot_data);
+		});
+	}
+
+	function convert_monthly_report_for_flot(data) {
+		var total_income = [];
+		var total_expenses = [];
+
+		$(data).each(function(key, cur_record) {
+			var cur_income = [];
+			var cur_expense = [];
+
+			var date = cur_record['date'];
+			var inc = cur_record['inc'];
+			var exp = cur_record['exp'];
+
+			cur_income.push(date);
+			cur_income.push(inc);
+
+			cur_expense.push(date);
+			cur_expense.push(exp);
+
+			total_income.push(cur_income);
+			total_expenses.push(cur_expense);
+		});
+
+		var flot_data = [
+			{label: "Income", data: total_income},
+			{label: "Expenses", data: total_expenses},
+		];
+
+		return flot_data;
+	}
+
+	function draw_monthly_report(flot_data) {
+		$('#placeholder').plot(flot_data);
+	}
 }
