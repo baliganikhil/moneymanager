@@ -72,7 +72,7 @@ MoneyController = function($scope, $http) {
 
 		$http({
 			method: 'GET',
-			url: 'moneymanager_services.php',
+			url: 'services/moneymanager_services.php',
 			params: params
 		}).success(function(data) {
 
@@ -144,7 +144,7 @@ MoneyController = function($scope, $http) {
 
 		$http({
 			method: "POST",
-			url: 'moneymanager_services.php',
+			url: 'services/moneymanager_services.php',
 			data: data
 		}).success(function(data) {
 
@@ -163,12 +163,12 @@ MoneyController = function($scope, $http) {
 
 		$http({
 			method: "POST",
-			url: 'login_services.php',
+			url: 'services/login_services.php',
 			data: data
 		}).success(function(data) {
 
 			if (data['err'] == null) {
-				window.location = 'login.php';
+				window.location = '../login.php';
 			}
 		});
 	}
@@ -206,7 +206,7 @@ MoneyController = function($scope, $http) {
 
 			$http({
 				method: "POST",
-				url: 'moneymanager_services.php',
+				url: 'services/moneymanager_services.php',
 				data: data
 			}).success(function(data) {
 
@@ -241,7 +241,7 @@ MoneyController = function($scope, $http) {
 		var params = {mode: 'mode_get_tags'}
 		$http({
 			method: 'GET',
-			url: 'moneymanager_services.php',
+			url: 'services/moneymanager_services.php',
 			params: params
 		}).success(function(data) {
 

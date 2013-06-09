@@ -63,7 +63,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
 					remember_me: $scope.remember_me
 				};
 
-				$http.post('login_services.php', data).success(
+				$http.post('services/login_services.php', data).success(
 					function(data) {
 						$scope.login_failed_msg = data['err'];
 

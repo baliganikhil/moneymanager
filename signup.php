@@ -66,7 +66,7 @@
 					password: $scope.password
 				};
 
-				$http.post('login_services.php', data).success(
+				$http.post('services/login_services.php', data).success(
 					function(data) {
 						$scope.signup_failed_msg = data['err'];
 
