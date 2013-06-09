@@ -60,8 +60,18 @@ function ADDIOUController($scope, $http) {
 	$scope.btn_add_iou = function() {
 		show_add_narration();
 	};
+
+	$scope.btn_add_friend = function() {
+		show_add_friend();
+	}
 }
 
 function show_add_narration() {
 	$('#add_iou').modal({background: 'static'});
+	$('#add_iou').modal('show');
+}
+
+function show_add_friend() {
+	$('#add_friend').modal({background: 'static'});
+	$('#add_friend').modal('show');
 }

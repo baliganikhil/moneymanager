@@ -46,11 +46,11 @@
 	<div class="span3">
 		<ul class="nav nav-tabs nav-stacked">
 			<li class=""><a href="javascript: void(0);"><i class="icon-search"></i> Search</a></li>
-			<li class="add_friend"><a href="javascript: void(0);"><i class="icon-user"></i> Add Friend</a></li>
+			<li class="add_friend" ng-click="btn_add_friend()"><a href="javascript: void(0);"><i class="icon-user"></i> Add Friend</a></li>
 		</ul>
 	</div>
 
-	<div class="span9">
+	<div class="span7">
 		<div id="monthly_ious" style="border: solid 1px #eee; padding: 15px;">
 			<div class="well">
 				<button class="btn"><i class="icon-chevron-left"></i> Go Back</button> 
@@ -59,7 +59,7 @@
 				<hr>
 				<form class="form-search">
 				  <div class="input-append">
-				    <input type="text" class="input-xxlarge search-query" placeholder="Search">
+				    <input type="text" class="span5 search-query" placeholder="Search">
 				    <button type="submit" class="btn">Search</button>
 				  </div>
 				</form>
@@ -109,7 +109,7 @@
 		</div>
 	</div>
 
-	<div class="span3 well">
+	<div class="span2 well">
 		<ul class="nav nav-tabs nav-stacked">
 			<li><a href="javascript:void(0);" class="label_red">Expenses</a></li>
 			<li><a href="javascript:void(0);" class="label_green">Income</a></li>
@@ -120,7 +120,7 @@
 </div>
 
 
-<div id="add_iou" class="modal span6 offset4 row hide">
+<div id="add_iou" class="modal hide">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
 	<h3>Add IOU</h3>
@@ -194,17 +194,19 @@
 			  	</div>
 			</div>
 
+		</div>
+
 	</form>
 
 	<div class="btn_toolbar">
-		<button class="btn">Cancel</button>
+		<button class="btn" data-dismiss="modal">Cancel</button>
 		<button class="btn btn-primary">Add</button>
 	</div>
 
 
 </div>
 
-<div id="add_friend" class="modal span6 offset4 row hide">
+<div id="add_friend" class="modal hide">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
 	<h3>Add Friend</h3>
@@ -214,7 +216,7 @@
 	<input type="text" placeholder="Phone Number">
 
 	<div class="btn_toolbar">
-		<button class="btn">Cancel</button>
+		<button class="btn" data-dismiss="modal">Cancel</button>
 		<button class="btn btn-primary"><i class="icon-user icon-white"></i> Add</button>
 	</div>
 </div>
