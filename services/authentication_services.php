@@ -1,7 +1,8 @@
 <?php
 
-require 'mongo_services.php';
+require_once 'mongo_services.php';
 require_once 'user_services.php';
+require_once 'constants.php';
 
 const MODE = 'mode';
 const MODE_LOGIN = 'mode_login';
@@ -20,7 +21,7 @@ class Authentication {
 			return true;
 		} else {
 			header("Location: login.php");
-			$this->clear_cookies();
+			// $this->clear_cookies();
 			return false;
 		}
 	}
@@ -30,8 +31,7 @@ class Authentication {
 
 		if ($this->authenticate_user_password($username, $password)) {
 			$this->save_login_cookies($username);
-			$ret = array('err'=> '');
-			
+			$ret = array('err'=> '');			
 		} else {
 			$ret = array('err'=> 'Invalid username and/or password');
 		}
@@ -86,11 +86,11 @@ class Authentication {
 	}
 
 	private function save_login_cookies($username) {
-		setcookie(USERNAME, $username);
+		setcookie(USERNAME, $username, time()+60*60*24*30, "/");
 
 		$auth_key = $this->get_password($username);
 
-		setcookie(AUTH_KEY, $auth_key);
+		setcookie(AUTH_KEY, $auth_key, time()+60*60*24*30, "/");
 	}
 
 	private function clear_cookies() {

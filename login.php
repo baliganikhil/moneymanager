@@ -12,8 +12,8 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
 <html ng-app>
 <head>
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<script type="text/javascript" src="angular.min.js"></script>
-	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
 
 	<title>MoneyManager: Login</title>
 
@@ -65,6 +65,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
 
 				$http.post('services/login_services.php', data).success(
 					function(data) {
+						// console.log(data); return;
 						$scope.login_failed_msg = data['err'];
 
 						if (data['err'] == '') {

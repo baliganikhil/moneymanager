@@ -4,8 +4,8 @@
 <html ng-app>
 <head>
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<script type="text/javascript" src="angular.min.js"></script>
-	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
 
 	<title>MoneyManager: Login</title>
 
