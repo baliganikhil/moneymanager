@@ -17,6 +17,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.min.css">
 	<script type="text/javascript" src="js/angular.min.js"></script>
 	<script type="text/javascript" src="js/jquery.js"></script>
 
@@ -50,7 +51,7 @@
 
 	</div>
 
-	<div class="span9">
+	<div class="span7">
 
 		<div id="monthly_table" style="border: solid 1px #eee; padding: 15px;">
 
@@ -105,7 +106,7 @@
 
 	</div>
 
-	<div class="span3 well">
+	<div class="span2 well">
 		<ul class="nav nav-tabs nav-stacked">
 			<li><a href="javascript:void(0);" class="label_red">Expenses: {{total_expenses}}</a></li>
 			<li><a href="javascript:void(0);" class="label_green">Income: {{total_income}}</a></li>
@@ -115,7 +116,7 @@
 
 </div>
 
-<div id="monthly_budget" class="row span9 modal hide">
+<div id="monthly_budget" class="modal hide">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
 	<h3>Monthly Budget</h3>
@@ -150,14 +151,14 @@
 	</table>
 
 	<div class="btn_toolbar">
-		<button class="btn">Cancel</button> 
+		<button class="btn" data-dismiss="modal">Cancel</button> 
 		<button class="btn btn-primary" ng-click="set_monthly_budget()">Save</button>
 	</div>
 
 </div>
 
 
-<div id="add_narration" class="modal span6 offset4 row hide">
+<div id="add_narration" class="modal hide">
 	
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 
@@ -251,7 +252,7 @@
 
 
 		<div class="btn_toolbar">
-			<button class="btn">Cancel</button>
+			<button class="btn" data-dismiss="modal">Cancel</button>
 			<button class="btn btn-primary" ng-click="add_narration()" ng-disabled="FormAddNarration.$invalid || inc_exp == ''">Add</button>
 		</div>
 

@@ -1,7 +1,6 @@
 <?php
 if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
 	header('Location: moneymanager.php');
-	// echo "Nikhil";
 	exit();
 }
 ?>
