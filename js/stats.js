@@ -48,6 +48,8 @@ function StatsController($scope, $http) {
 		var total_income = [];
 		var total_expenses = [];
 
+		data = sort_by_date(data);
+
 		$(data).each(function(key, cur_record) {
 			var cur_income = [];
 			var cur_expense = [];
@@ -72,6 +74,22 @@ function StatsController($scope, $http) {
 		];
 
 		return flot_data;
+	}
+
+	function sort_by_date(data) {
+		function compare(a, b) {
+			if (a.date < b.date)
+		    	return -1;
+			
+			if (a.date > b.date)
+		    	return 1;
+			
+			return 0;
+		}
+
+		data.sort(compare);
+
+		return data;
 	}
 
 	function draw_monthly_report(flot_data) {
