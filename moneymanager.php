@@ -43,7 +43,8 @@
 	<div class="span3">
 
 		<ul class="nav nav-tabs nav-stacked">
-			<li class="show_monthly_budget"><a href="javascript: void(0);">Set Monthly Budget</a></li>
+			<li class=""><a href="javascript: void(0);"><i class="icon-search"></i> Search</a></li>
+			<li class="show_monthly_budget"><a href="javascript: void(0);"><i class="icon-certificate"></i> Set Monthly Budget</a></li>
 		</ul>
 
 	</div>
@@ -57,8 +58,7 @@
 					<select class='all_months' ng-model="mt_month" ng-change="month_changed()" ng-options="m.index as m.month for m in all_months">
 					</select>
 
-					<select class='all_years span2' ng-model="mt_year" ng-options="each_year as each_year for (key, each_year) in all_years">
-						<!-- <option ng-repeat="(key, each_year) in all_years" value="{{each_year}}">{{each_year}}</option> -->
+					<select class='all_years span2' ng-model="mt_year" ng-options="y.index as y.year for y in all_years">
 					</select>
 
 					<button class="btn btn-success pull-right" id="btn_add_narration" ng-click="btn_add_narration()"><i class="icon-plus icon-white"></i> Item</button>
@@ -127,25 +127,30 @@
 			</td>
 
 			<td>
-				<select class='all_years span2' ng-options="key as each_year for (key, each_year) in all_years" ng-model="budget_year">
+				<select class='all_years span2' ng-options="y.index as y.year for y in all_years" ng-model="budget_year">
 				</select>
 			</td>
 		</tr>
 
 		<tr>
 			<td>I want to spend NOT more than </td>
-			<td><input type="text" class="span2"></td>
+			<td><input type="text" class="span2" ng-model="budget_amount"></td>
+		</tr>
+
+		<tr>
+			<td>Warn me when expenses reach </td>
+			<td><input type="text" class="span2" ng-model="budget_warning_amount"></td>
 		</tr>
 
 		<tr>
 			<td>I want to save at least </td>
-			<td><input type="text" class="span2"></td>
+			<td><input type="text" class="span2" ng-model="savings_lower_limit"></td>
 		</tr>
 	</table>
 
 	<div class="btn_toolbar">
 		<button class="btn">Cancel</button> 
-		<button class="btn btn-primary">Save</button>
+		<button class="btn btn-primary" ng-click="set_monthly_budget()">Save</button>
 	</div>
 
 </div>

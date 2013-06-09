@@ -26,6 +26,10 @@ class MongoWrapper {
 			case COLL_TAGS:
 				return $db->tags;
 				break;
+
+			case COLL_MONTHLY_BUDGET:
+				return $db->monthly_budget;
+				break;
 			
 			default:
 				# code...

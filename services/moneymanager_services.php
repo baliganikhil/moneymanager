@@ -1,13 +1,16 @@
 <?php
-
+//*****************************************//
 require_once 'constants.php';
 require 'authentication_services.php';
-require 'narration_services.php';
-require_once 'tag_services.php';
 
 $a = new Authentication();
 $a->security_guard();
 unset($a);
+//*****************************************//
+
+require_once 'narration_services.php';
+require_once 'tag_services.php';
+require_once 'monthly_budget_services.php';
 
 const MODE_LOGIN = 'mode_login';
 
@@ -17,6 +20,9 @@ const MODE_DELETE_NARRATION = 'mode_delete_narration';
 
 const MODE_GET_TAGS = 'mode_get_tags';
 const MODE_SAVE_TAGS = 'mode_save_tags';
+
+const MODE_GET_MONTHLY_BUDGET = 'mode_get_monthly_budget';
+const MODE_SET_MONTHLY_BUDGET = 'mode_set_monthly_budget';
 
 const DATA_narration = 'narration';
 const DATA_params = 'params';
@@ -59,6 +65,10 @@ switch ($mode) {
 
 	case MODE_SAVE_TAGS:
 		save_tags($request_params);
+		break;
+
+	case MODE_SET_MONTHLY_BUDGET:
+		mode_set_monthly_budget($request_params);
 		break;
 	
 	default:
@@ -103,6 +113,12 @@ function save_tags($request_params) {
 	$t = new tag_services();
 	$tags = $request_params[TAGS];
 	$t->save_tags($tags);
+}
+
+function mode_set_monthly_budget($request_params) {
+	$mbs = new monthly_budget_services();
+	$data = $request_params[DATA];
+	$mbs->save_budget($data);
 }
 
 function get_username() {

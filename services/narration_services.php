@@ -2,6 +2,7 @@
 
 require_once 'constants.php';
 require_once 'mongo_services.php';
+require_once 'monthly_budget_services.php';
 
 class narration_services {
 
@@ -49,7 +50,10 @@ class narration_services {
 		$m = new MongoWrapper();
 		$coll_narrations = $m->get_collection(COLL_NARRATIONS);
 
-		$query = array(USERNAME => $params[USERNAME], MONTH => $params[MONTH], YEAR => $params[YEAR]);
+		$month = $params[MONTH];
+		$year = $params[YEAR];
+
+		$query = array(USERNAME => $params[USERNAME], MONTH => $month, YEAR => $year);
 
 		$cursor = $coll_narrations->find($query);
 
@@ -62,7 +66,13 @@ class narration_services {
 			$data[] = $value;
 		}
 		
-		$response['data'] = $data;
+		$response['narrations'] = $data;
+
+		$mbs = new monthly_budget_services();
+		$mbs_params = array(MONTH => $month, YEAR => $year);
+		$budget = $mbs->get_budget($mbs_params, true);
+
+		$response['budget'] = $budget;
 
 		echo json_encode($response);
 		

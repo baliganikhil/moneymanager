@@ -15,7 +15,7 @@ MoneyController = function($scope, $http) {
 	 					];
 
 
-	$scope.all_years = ['2013', '2014'];
+	$scope.all_years = [{index: '2013', year: '2013'}, {index: '2014', year: '2014'}];
 	$scope.username = username;
 
 	var d = new Date();
@@ -77,7 +77,15 @@ MoneyController = function($scope, $http) {
 		}).success(function(data) {
 
 			if (data['err'] == null) {
-				$scope.monthly_data = data['data'];
+				$scope.monthly_data = data['narrations'];
+
+				var budget = data['budget'];
+				if (budget == null) {
+					$scope.monthly_budget = '';
+				} else {
+					$scope.monthly_budget = budget['budget_amount'];
+				}
+
 				evaluate_totals_budget();
 			}
 
@@ -270,6 +278,42 @@ MoneyController = function($scope, $http) {
 	$('#narration_category').on('blur', function() {
 		$scope.category = $(this).val();
 	});
+
+
+	$scope.set_monthly_budget = function() {
+		var budget = {};
+		budget['month'] = $scope.budget_month;
+		budget['year'] = $scope.budget_year;
+		budget['budget_amount'] = $scope.budget_amount;
+		budget['budget_warning_amount'] = $scope.budget_warning_amount;
+		budget['savings_lower_limit'] = $scope.savings_lower_limit;
+
+		var params = {};
+		params['mode'] = 'mode_set_monthly_budget';
+		params['data'] = budget;
+
+		$http({
+			method: 'POST',
+			url: 'services/moneymanager_services.php',
+			data: params
+		}).success(function(data) {
+
+			if (data['err'] == '') {
+				$('#monthly_budget').modal('hide');
+
+				data = data['data'];
+
+				if ($scope.budget_month == $scope.mt_month && $scope.budget_year == $scope.mt_year) {
+					$scope.monthly_budget = data['budget_amount'];
+					evaluate_totals_budget();
+				}
+			} else {
+				alert(data['err']);
+			}
+			
+
+		});
+	}	
 
 };
 
