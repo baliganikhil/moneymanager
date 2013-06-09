@@ -28,7 +28,7 @@
 	    <ul class="nav">
 	      <li class="active"><a href="#">Home</a></li>
 	      <li><a href="ious.php">IOUs</a></li>
-	      <li><a href="#">Stats</a></li>
+	      <li><a href="stats.php">Stats</a></li>
 	    </ul>
 
 	    <ul class="nav pull-right">

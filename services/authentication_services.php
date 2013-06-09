@@ -94,8 +94,8 @@ class Authentication {
 	}
 
 	private function clear_cookies() {
-		setcookie(USERNAME, "", time() - 3600);
-		setcookie(AUTH_KEY, "", time() - 3600);
+		setcookie(USERNAME, "", time() - 3600, "/");
+		setcookie(AUTH_KEY, "", time() - 3600, "/");
 	}
 
 	private function authenticate_user_auth_key($username, $auth_key) {

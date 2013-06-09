@@ -29,7 +29,7 @@
 	    <ul class="nav">
 	      <li><a href="moneymanager.php">Home</a></li>
 	      <li class="active"><a href="#">IOUs</a></li>
-	      <li><a href="#">Stats</a></li>
+	      <li><a href="stats.php">Stats</a></li>
 	    </ul>
 
 	    <ul class="nav pull-right">
