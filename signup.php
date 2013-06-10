@@ -10,6 +10,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
 
 <html ng-app>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.min.css">
 	<script type="text/javascript" src="js/angular.min.js"></script>
@@ -20,13 +21,11 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
 </head>
 <body>
 
-	<div class="container row" ng-controller="SignUpController">
+	<div class="container" ng-controller="SignUpController">
 
-		<div class="span5">
-			&nbsp;a
-		</div>
+		<div class="span6"></div>
 
-		<div class="span6 well" style="margin-top: 20px;">
+		<div class="span6" style="margin-top: 20px;">
 			<form class="form-horizontal" name="SignUpForm" ng-cloak>
 			  <div class="control-group">
 			    <label class="control-label" for="inputEmail">Email</label>
@@ -44,7 +43,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
 			  <div class="control-group">
 			    <label class="control-label" for="conformPassword">Confirm Password</label>
 			    <div class="controls">
-			      <input type="password" id="conformPassword" placeholder="Re-enter Password" ng-model="confirm_password" required>
+			      <input type="password" id="conformPassword" placeholder="Re-enter Password" ng-model="confirm_password" required ng-change="check_if_passwords_match()">
 			    </div>
 			  </div>
 
@@ -89,8 +88,25 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
 
 					});
 			}
+
+			$scope.check_if_passwords_match = function() {
+				if ($scope.password != undefined && $scope.password != $scope.confirm_password) {
+					$scope.signup_failed_msg = 'Passwords don\'t match';
+				} else {
+					$scope.signup_failed_msg = '';
+				}
+			}
 		}
 	</script>
+
+	<style type="text/css">
+		body {
+
+		}
+	</style>
+
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
 
 </body>
 </html>

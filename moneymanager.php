@@ -124,12 +124,12 @@
 	<table style="width: 75%">
 		<tr>
 			<td>
-				<select class='all_months' ng-options="m.index as m.month for m in all_months" ng-model="budget_month">
+				<select class='all_months' ng-options="m.index as m.month for m in all_months" ng-model="budget_month" ng-change="get_monthly_budget()">
 				</select>
 			</td>
 
 			<td>
-				<select class='all_years span2' ng-options="y.index as y.year for y in all_years" ng-model="budget_year">
+				<select class='all_years span2' ng-options="y.index as y.year for y in all_years" ng-model="budget_year" ng-change="get_monthly_budget()">
 				</select>
 			</td>
 		</tr>
@@ -238,14 +238,14 @@
 	  		
 
 		  		<ul>
-		  			<li ng-repeat="(key, tag) in narration_tags">{{tag}} <i class="icon-remove"></i></li>
+		  			<li ng-repeat="(key, tag) in narration_tags">{{tag}} <i class="icon-remove" ng-click="remove_narration_tag(key)"></i></li>
 		  		</ul>
 		  	</div>
 		  </div>
 		  
 		  <div class="tab-pane" id="more_info">
 		  	<div>
-				<textarea class="span6" rows="3" placeholder="Notes" ng-model="notes"></textarea>
+				<textarea class="span5" rows="3" placeholder="Notes" ng-model="notes"></textarea>
 			</div>
 		  </div>
 		</div>
@@ -308,5 +308,6 @@
 	}
 
 	</style>
+
 </body>
 </html>

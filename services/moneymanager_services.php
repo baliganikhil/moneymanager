@@ -74,6 +74,10 @@ switch ($mode) {
 		set_monthly_budget($request_params);
 		break;
 
+	case MODE_GET_MONTHLY_BUDGET:
+		get_monthly_budget($request_params);
+		break;
+
 	case MODE_GET_MONTHLY_REPORT:
 		get_monthly_report($request_params);
 		break;
@@ -126,6 +130,12 @@ function set_monthly_budget($request_params) {
 	$mbs = new monthly_budget_services();
 	$data = $request_params[DATA];
 	$mbs->save_budget($data);
+}
+
+function get_monthly_budget($request_params) {
+	$mbs = new monthly_budget_services();
+	$data = json_decode($request_params[DATA], true);
+	$mbs->get_budget($data, false);
 }
 
 function get_monthly_report($request_params) {

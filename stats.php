@@ -46,7 +46,7 @@
 
 		<ul class="nav nav-tabs nav-stacked">
 			<li class=""><a href="javascript: void(0);"><i class="icon-search"></i> Search</a></li>
-			<li class="" ng-click="get_monthly_report()"><a href="javascript: void(0);"><i class="icon-search"></i> Monthly Report</a></li>
+			<li class="" ng-click="get_monthly_report()"><a href="javascript: void(0);"><i class="icon-calendar"></i> Monthly Report</a></li>
 		</ul>
 
 	</div>
