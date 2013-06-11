@@ -80,14 +80,14 @@
 			<table class="table table-hover">
 				<tr>
 					<th>Sl</th>
-					<th>Date</th>
-					<th>Narration</th>
-					<th>Amount</th>
+					<th><a href="javascript:void(0);" ng-click="mt_sort_param = 'date'; mt_sort_reverse = !mt_sort_reverse">Date</a></th>
+					<th><a href="javascript:void(0);" ng-click="mt_sort_param = 'narration'; mt_sort_reverse = !mt_sort_reverse">Narration</a></th>
+					<th><a href="javascript:void(0);" ng-click="mt_sort_param = 'amount'; mt_sort_reverse = !mt_sort_reverse">Amount</a></th>
 					<th></th>
 					<th></th>
 				</tr>
 
-				<tr ng-repeat="(sl, each_row) in monthly_data">
+				<tr ng-repeat="(sl, each_row) in monthly_data | orderBy:mt_sort_param:mt_sort_reverse">
 					<td>{{sl + 1}}</td>
 					<td>{{each_row.full_date}}</td>
 					<td>{{each_row.narration}}</td>

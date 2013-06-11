@@ -1,46 +1,49 @@
 MoneyController = function($scope, $http) {
 	$scope.all_months = [
-						{'index': '1', 'month': 'January'},
-						{'index': '2', 'month': 'February'},
-						{'index': '3', 'month': 'March'},
-						{'index': '4', 'month': 'April'},
-						{'index': '5', 'month': 'May'},
-						{'index': '6', 'month': 'June'},
-						{'index': '7', 'month': 'July'},
-						{'index': '8', 'month': 'August'},
-						{'index': '9', 'month': 'September'},
-						{'index': '10', 'month': 'October'},
-						{'index': '11', 'month': 'November'},
-	 					{'index': '12', 'month': 'December'}
+						{'index': 1, 'month': 'January'},
+						{'index': 2, 'month': 'February'},
+						{'index': 3, 'month': 'March'},
+						{'index': 4, 'month': 'April'},
+						{'index': 5, 'month': 'May'},
+						{'index': 6, 'month': 'June'},
+						{'index': 7, 'month': 'July'},
+						{'index': 8, 'month': 'August'},
+						{'index': 9, 'month': 'September'},
+						{'index': 10, 'month': 'October'},
+						{'index': 11, 'month': 'November'},
+	 					{'index': 12, 'month': 'December'}
 	 					];
 
 
-	$scope.all_years = [{index: '2013', year: '2013'}, {index: '2014', year: '2014'}];
+	$scope.all_years = [{index: 2013, year: '2013'}, {index: 2014, year: '2014'}];
 	$scope.username = username;
 
 	var d = new Date();
 	var cur_month = d.getMonth() + 1;
 
-	$scope.mt_month = String(cur_month);
-	$scope.mt_year = "2013";
+	$scope.mt_month = cur_month;
+	$scope.mt_year = 2013;
 
 	$scope.budget_month = $scope.mt_month;
 	$scope.budget_year = $scope.mt_year;
 
-	$scope.monthly_budget = 10000;
+	$scope.monthly_budget = undefined;
 	$scope.narration_id = '';
 
 	$scope.all_tags = [];
 	$scope.narration_tags = [];
 	$scope.new_tag = undefined;
 
+	$scope.mt_sort_param = 'date';
+	$scope.mt_sort_reverse = false;
+
 	// Populate date dropdown
 	$scope.populate_days_dd = function() {
 		var no_of_days;
-		var months_31 = ["1", "3", "5", "7", "8", "10", "12"];
+		var months_31 = [1, 3, 5, 7, 8, 10, 12];
 		if (months_31.indexOf($scope.mt_month) != -1) {
 			no_of_days = 31;
-		} else if (cur_month == "2") {
+		} else if (cur_month == 2) {
 			no_of_days = 28;
 		} else {
 			no_of_days = 30;
@@ -66,8 +69,8 @@ MoneyController = function($scope, $http) {
 
 	$scope.get_narrations = function() {
 		var data = {};
-		data['month'] = $scope.mt_month;
-		data['year'] = $scope.mt_year;
+		data['month'] = parseInt($scope.mt_month);
+		data['year'] = parseInt($scope.mt_year);
 
 		var params = {};
 		params['mode'] = 'mode_get_narrations';
@@ -130,9 +133,9 @@ MoneyController = function($scope, $http) {
 	$scope.get_narrations();
 
 	$scope.add_narration = function() {
-		var date = $scope.narration_date;
-		var month = $scope.mt_month
-		var year = $scope.mt_year;
+		var date = parseInt($scope.narration_date);
+		var month = parseInt($scope.mt_month);
+		var year = parseInt($scope.mt_year);
 
 		var full_date = date + '/' + month + '/' + year;
 
@@ -245,7 +248,9 @@ MoneyController = function($scope, $http) {
 
 		$scope.narration = '';
 		$scope.category = '';
-		$scope.narration_date = '';
+
+		var d = new Date();
+		$scope.narration_date = d.getDate();
 
 		$scope.inc_exp = '';
 		$scope.amount = '';
@@ -333,8 +338,8 @@ MoneyController = function($scope, $http) {
 
 	$scope.get_monthly_budget = function() {
 		var data = {};
-		data['month'] = $scope.budget_month;
-		data['year'] = $scope.budget_year;
+		data['month'] = parseInt($scope.budget_month);
+		data['year'] = parseInt($scope.budget_year);
 
 		var params = {};
 		params['mode'] = 'mode_get_monthly_budget';
