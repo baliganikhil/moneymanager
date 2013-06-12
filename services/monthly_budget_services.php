@@ -25,8 +25,6 @@ class monthly_budget_services {
 		$record[CREATED_BY] = $username;
 		$record[MODIFIED_BY] = $username;
 
-		// var_dump($record); exit();
-
 		$r = $coll_monthly_budget->update(array(USERNAME => $username, MONTH => $month, YEAR => $year), $record, array('upsert' => true));
 
 		$response = array();

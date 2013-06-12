@@ -24,7 +24,7 @@
 </head>
 <body ng-controller="MoneyController">
 
-	<div class="navbar">
+	<div class="navbar" ng-cloak>
 	  <div class="navbar-inner">
 	    <a class="brand" href="#">Black Light</a>
 	    <ul class="nav">
@@ -77,7 +77,7 @@
 				</div>
 			</div>
 
-			<table class="table table-hover">
+			<table class="table table-hover" ng-cloak>
 				<tr>
 					<th>Sl</th>
 					<th><a href="javascript:void(0);" ng-click="mt_sort_param = 'date'; mt_sort_reverse = !mt_sort_reverse">Date</a></th>
@@ -86,8 +86,8 @@
 					<th></th>
 					<th></th>
 				</tr>
-
-				<tr ng-repeat="(sl, each_row) in monthly_data | orderBy:mt_sort_param:mt_sort_reverse">
+ <!-- | orderBy:mt_sort_param:mt_sort_reverse -->
+				<tr ng-repeat="(sl, each_row) in monthly_data">
 					<td>{{sl + 1}}</td>
 					<td>{{each_row.full_date}}</td>
 					<td>{{each_row.narration}}</td>
@@ -106,7 +106,7 @@
 
 	</div>
 
-	<div class="span2 well">
+	<div class="span2 well" ng-cloak>
 		<ul class="nav nav-tabs nav-stacked">
 			<li><a href="javascript:void(0);" class="label_red">Expenses: {{total_expenses}}</a></li>
 			<li><a href="javascript:void(0);" class="label_green">Income: {{total_income}}</a></li>

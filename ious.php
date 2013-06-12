@@ -25,7 +25,7 @@
 
 <body ng-controller="ADDIOUController">
 
-	<div class="navbar">
+	<div class="navbar" ng-cloak>
 	  <div class="navbar-inner">
 	    <a class="brand" href="#">Black Light</a>
 	    <ul class="nav">
@@ -73,8 +73,7 @@
 					<select class='all_months' ng-model="mt_month" ng-change="month_changed()" ng-options="m.index as m.month for m in all_months">
 					</select>
 
-					<select class='all_years span2' ng-model="mt_year" ng-options="each_year as each_year for (key, each_year) in all_years">
-						<!-- <option ng-repeat="(key, each_year) in all_years" value="{{each_year}}">{{each_year}}</option> -->
+					<select class='all_years span2' ng-model="mt_year" ng-options="y.index as y.year for y in all_years">
 					</select>
 
 					<button class="btn btn-success pull-right" id="btn_add_iou" ng-click="btn_add_iou()"><i class="icon-plus icon-white"></i> IOU</button>
@@ -91,11 +90,11 @@
 					<th></th>
 				</tr>
 
-				<tr ng-repeat="(sl, each_row) in monthly_data">
+				<tr ng-repeat="(sl, each_row) in monthly_data" ng-cloak>
 					<td>{{sl + 1}}</td>
 					<td>{{each_row.full_date}}</td>
 					<td>{{each_row.narration}}</td>
-					<td ng-class="{label_green: each_row.inc_exp == 'inc', label_red: each_row.inc_exp == 'exp'}">{{each_row.amount}}</td>
+					<td ng-class="{label_green: each_row.total_amount > 0, label_red: each_row.total_amount < 0}">{{each_row.total_amount}}</td>
 					<td><i class="icon-pencil" ng-click="edit_narration(sl)"></i></td>
 					<td><i class="icon-remove" ng-click="delete_narration(sl)"></i></td>
 				</tr>
@@ -139,13 +138,13 @@
 					<tr>
 						<td>
 							<div class="btn-group" data-toggle="buttons-radio">
-								<button type="button" class="btn btn-success">I Have To Get Money</button>
-								<button type="button" class="btn btn-danger">I Owe Money</button>
+								<button type="button" class="btn btn-success" ng-click="get_owe = 'get'">I Have To Get Money</button>
+								<button type="button" class="btn btn-danger" ng-click="get_owe = 'owe'">I Owe Money</button>
 							</div>
 						</td>
 
 						<td>
-							<select class="span1" ng-model="iou_date" required ng-options="d.index as d.date for d in all_days">
+							<select class="span1" ng-model="date" required ng-options="d.index as d.date for d in all_days">
 							</select>
 							<strong>{{all_months[mt_month - 1]['month']}}, {{mt_year}}</strong>
 						</td>
@@ -154,21 +153,21 @@
 
 				
 
-				<input class="span7" type="text" placeholder="Narration">
+				<input class="span7" type="text" placeholder="Narration" ng-model="narration">
 
 				<div class="form-horizontal">
 					<form>
-						<input type="text" placeholder="Person" class="span3" ng-model="person"> 
+						<input type="text" placeholder="Person" class="span3" ng-model="person" id="person_name"> 
 						<input type="text" placeholder="Amount" class="span2" ng-model="amount" ng-pattern="/^[0-9]+$/"> 
 						<button type="submit" class="btn btn-success" ng-click="add_iou_to_cur_iou()" ng-disabled="person == '' || ng-amount == ''"><i class="icon-white icon-plus"></i></button>
 					</form>
 
 					<div style="height: 200px; overflow-y: scroll;">
-						<div class="row" ng-repeat="(key, each_iou) in cur_iou" style="margin-top: 10px;">
+						<div class="row" ng-repeat="(key, each_iou) in ious" style="margin-top: 10px;">
 							<div class="span3" ng-class="{struck: true == each_iou.paid}">{{each_iou.person}}</div>
 							<div class="span2" ng-class="{struck: true == each_iou.paid}">{{each_iou.amount}}</div>
-							<button class="btn" ng-show="each_iou.paid == false">Paid</button>
-							<button class="btn" ng-show="each_iou.paid == true"><i class="icon-repeat"></i></button>
+							<button class="btn" ng-show="each_iou.paid == false" ng-click="each_iou.paid = true">Paid</button>
+							<button class="btn" ng-show="each_iou.paid == true" ng-click="each_iou.paid = false"><i class="icon-repeat"></i></button>
 						</div>
 					</div>
 
@@ -200,7 +199,7 @@
 
 	<div class="btn_toolbar">
 		<button class="btn" data-dismiss="modal">Cancel</button>
-		<button class="btn btn-primary">Add</button>
+		<button class="btn btn-primary" ng-click="save_iou()" ng-disabled="validate_add_iou()">Add</button>
 	</div>
 
 
@@ -211,13 +210,13 @@
 
 	<h3>Add Friend</h3>
 
-	<input type="text" placeholder="Friend's Name"> <span class="label_help">Helps add IOUs faster</span> <br>
-	<input type="email" placeholder="Email Address"> <span class="label_help">Send reminders and summaries</span> <br>
-	<input type="text" placeholder="Phone Number">
+	<input type="text" placeholder="Friend's Name" ng-model="friend_name"> <span class="label_help">Helps add IOUs faster</span> <br>
+	<input type="email" placeholder="Email Address" ng-model="friend_email"> <span class="label_help">Send reminders and summaries</span> <br>
+	<input type="text" placeholder="Phone Number" ng-model="friend_phone">
 
 	<div class="btn_toolbar">
 		<button class="btn" data-dismiss="modal">Cancel</button>
-		<button class="btn btn-primary"><i class="icon-user icon-white"></i> Add</button>
+		<button class="btn btn-primary" ng-click="add_friend()"><i class="icon-user icon-white"></i> Add</button>
 	</div>
 </div>
 
@@ -235,6 +234,16 @@
 	.label_help {
 		color: #666 !important;
 		font-size: 11px;
+	}
+
+	.label_green {
+		color: green;
+		font-weight: bold;
+	}
+
+	.label_red {
+		color: red;
+		font-weight: bold;
 	}
 
 	.struck {

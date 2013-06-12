@@ -36,8 +36,6 @@ class narration_services {
 			$narration["_id"] = $id;
 			$r = $coll_narrations->update(array('_id' => $id), $narration);
 
-			echo "string";exit();
-
 			$response = array();
 			$response['err'] = $r['err'];
 			$response['data'] = $narration;

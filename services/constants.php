@@ -5,6 +5,8 @@ const COLL_PEOPLE = 'people';
 const COLL_NARRATIONS = 'narrations';
 const COLL_TAGS = 'tags';
 const COLL_MONTHLY_BUDGET = 'monthly_budget';
+const COLL_FRIENDS = 'friends';
+const COLL_IOUS = 'ious';
 
 const USERNAME = 'username';
 

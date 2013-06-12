@@ -30,6 +30,14 @@ class MongoWrapper {
 			case COLL_MONTHLY_BUDGET:
 				return $db->monthly_budget;
 				break;
+
+			case COLL_FRIENDS:
+				return $db->friends;
+				break;
+
+			case COLL_IOUS:
+				return $db->ious;
+				break;
 			
 			default:
 				# code...
