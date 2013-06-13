@@ -24,6 +24,10 @@ function ADDIOUController($scope, $http) {
 	$scope.mt_month = cur_month;
 	$scope.mt_year = 2013;
 
+	$scope.all_tags = [];
+	$scope.iou_tags = [];
+	$scope.new_tag = undefined;
+
 	// Populate date dropdown
 	$scope.populate_days_dd = function() {
 		var no_of_days;
@@ -65,7 +69,18 @@ function ADDIOUController($scope, $http) {
 	}
 
 	$scope.btn_add_iou = function() {
-		show_add_narration();
+		$scope.iou_id = undefined;
+		$scope.narration = undefined;
+
+		var d = new Date();
+		$scope.date = d.getDate();
+
+		$scope.get_owe = undefined;
+
+		$scope.ious = [];
+		$scope.iou_tags = [];
+
+		show_add_iou();
 	};
 
 	$scope.btn_add_friend = function() {
@@ -143,14 +158,22 @@ function ADDIOUController($scope, $http) {
 
 		data['get_owe'] = $scope.get_owe;
 
+		data['tags'] = $scope.iou_tags;
+
 		data['ious'] = $scope.ious;
+
+		if ($scope.iou_id != undefined) {
+			data['_id'] = $scope.iou_id;
+		}
 
 		var total_amount = 0;
 		for (var i = 0; i < $scope.ious.length; i++) {
-			if ($scope.get_owe == 'get') {
-				total_amount += $scope.ious[i]['amount'];
-			} else {
-				total_amount -= $scope.ious[i]['amount'];
+			if (!$scope.ious[i]['paid']) {
+				if ($scope.get_owe == 'get') {
+					total_amount += $scope.ious[i]['amount'];
+				} else {
+					total_amount -= $scope.ious[i]['amount'];
+				}
 			}
 		}
 
@@ -169,6 +192,7 @@ function ADDIOUController($scope, $http) {
 
 			if (data['err'] == null) {
 				$('.modal').modal('hide');
+				$scope.get_ious();
 			}
 		});
 
@@ -197,10 +221,70 @@ function ADDIOUController($scope, $http) {
 
 	$scope.get_ious();
 
+	$scope.delete_iou = function(index) {
+		if (confirm("Are you sure?")) {
+			var _id = $scope.monthly_data[index]['_id']['$id'];
+
+			var data = {};
+			data['mode'] = 'mode_delete_iou';
+			data['_id'] = _id;
+
+			// console.log($scope.monthly_data);return;
+
+			$http({
+				method: "POST",
+				url: 'services/moneymanager_services.php',
+				data: data
+			}).success(function(data) {
+
+				console.log(data);
+
+				if (data['err'] == '') {
+					$scope.monthly_data.splice(index, 1);
+				}
+			});
+			
+		}
+	}
+
 	$scope.validate_add_iou = function() {
 		if (nullOrEmpty($scope.narration) || nullOrEmpty($scope.date) || $scope.ious.length == 0 || nullOrEmpty($scope.get_owe)) {
 			return true;
 		}
+	}
+
+	$scope.edit_iou = function(index) {
+		var data = $scope.monthly_data[index];
+
+		console.log(data);
+
+		$scope.narration = data['narration'];
+		$scope.date = parseInt(data['date']);
+
+		$scope.get_owe = data['get_owe'];
+
+		$scope.ious = data['ious'];
+
+		$scope.iou_tags = data['tags'];
+
+		$scope.iou_id = data['_id']['$id'];
+
+		show_add_iou();
+	}
+
+	$scope.add_new_tag = function () {
+		var tag = $('#new_tag').val();
+		$scope.iou_tags.push(tag);
+
+		if ($scope.all_tags.indexOf(tag) == -1) {
+			$scope.all_tags.push(tag);
+		}
+
+		$scope.new_tag = undefined;
+	}
+
+	$scope.remove_narration_tag = function (index) {
+		$scope.iou_tags.splice(index, 1);
 	}
 }
 
@@ -212,7 +296,7 @@ function nullOrEmpty(string) {
 	}
 }
 
-function show_add_narration() {
+function show_add_iou() {
 	$('#add_iou').modal({background: 'static'});
 	$('#add_iou').modal('show');
 }

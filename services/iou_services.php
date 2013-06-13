@@ -76,6 +76,21 @@ class iou_services {
 		echo json_encode($response);		
 	}
 
+	public function delete_iou($params) {
+		$m = new MongoWrapper();
+		$coll_ious = $m->get_collection(COLL_IOUS);
+
+		$id = new MongoId($params["_id"]);
+
+		$ret = $coll_ious->remove(array("_id" => $id), array("justOne" => true));
+
+		$response = array();
+		$response['err'] = $ret == true ? '' : 'Could not delete record';
+
+		echo json_encode($response);
+
+	}
+
 	private function get_username() {
 		$a = new Authentication();
 		$username = $a->get_username();

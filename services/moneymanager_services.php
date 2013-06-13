@@ -27,6 +27,7 @@ const MODE_GET_FRIENDS = 'mode_get_friends';
 
 const MODE_ADD_IOU = 'mode_add_iou';
 const MODE_GET_IOUS = 'mode_get_ious';
+const MODE_DELETE_IOU = 'mode_delete_iou';
 
 const DATA_narration = 'narration';
 const DATA_params = 'params';
@@ -110,6 +111,11 @@ switch ($mode) {
 		require_once 'iou_services.php';
 		get_ious($request_params);
 		break;
+
+	case MODE_DELETE_IOU:
+		require_once 'iou_services.php';
+		delete_iou($request_params);
+		break;
 	
 	default:
 		echo "No Mode, No Action";
@@ -169,7 +175,8 @@ function get_monthly_budget($request_params) {
 
 function get_monthly_report($request_params) {
 	$ss = new stat_services();
-	$ss->get_monthly_report($request_params);
+	$data = json_decode($request_params[DATA], true);
+	$ss->get_monthly_report($data);
 }
 
 function add_friend($request_params) {
@@ -193,6 +200,11 @@ function get_ious($request_params) {
 	$data = json_decode($request_params[DATA], true);
 	$is = new iou_services();
 	$is->get_ious($data);
+}
+
+function delete_iou($request_params) {
+	$is = new iou_services();
+	$is->delete_iou($request_params);
 }
 
 function get_username() {

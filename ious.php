@@ -52,7 +52,7 @@
 
 	<div class="span7">
 		<div id="monthly_ious" style="border: solid 1px #eee; padding: 15px;">
-			<div class="well">
+			<div class="well hide">
 				<button class="btn"><i class="icon-chevron-left"></i> Go Back</button> 
 				<button class="btn btn-success">People who owe me</button> 
 				<button class="btn btn-danger">People whom I owe</button> 
@@ -90,13 +90,13 @@
 					<th></th>
 				</tr>
 
-				<tr ng-repeat="(sl, each_row) in monthly_data" ng-cloak>
+				<tr ng-repeat="(sl, each_row) in monthly_data" ng-cloak ng-class="{struck: each_row.total_amount == 0}">
 					<td>{{sl + 1}}</td>
 					<td>{{each_row.full_date}}</td>
 					<td>{{each_row.narration}}</td>
 					<td ng-class="{label_green: each_row.total_amount > 0, label_red: each_row.total_amount < 0}">{{each_row.total_amount}}</td>
-					<td><i class="icon-pencil" ng-click="edit_narration(sl)"></i></td>
-					<td><i class="icon-remove" ng-click="delete_narration(sl)"></i></td>
+					<td><i class="icon-pencil" ng-click="edit_iou(sl)"></i></td>
+					<td><i class="icon-remove" ng-click="delete_iou(sl)"></i></td>
 				</tr>
 
 				<tr ng-show="monthly_data.length == 0">
@@ -138,8 +138,8 @@
 					<tr>
 						<td>
 							<div class="btn-group" data-toggle="buttons-radio">
-								<button type="button" class="btn btn-success" ng-click="get_owe = 'get'">I Have To Get Money</button>
-								<button type="button" class="btn btn-danger" ng-click="get_owe = 'owe'">I Owe Money</button>
+								<button type="button" class="btn btn-success" ng-click="get_owe = 'get'" ng-class="{active: get_owe == 'get'}">I Have To Get Money</button>
+								<button type="button" class="btn btn-danger" ng-click="get_owe = 'owe'" ng-class="{active: get_owe == 'owe'}">I Owe Money</button>
 							</div>
 						</td>
 
@@ -162,7 +162,7 @@
 						<button type="submit" class="btn btn-success" ng-click="add_iou_to_cur_iou()" ng-disabled="person == '' || ng-amount == ''"><i class="icon-white icon-plus"></i></button>
 					</form>
 
-					<div style="height: 200px; overflow-y: scroll;">
+					<div style="height: 150px; overflow-y: scroll;">
 						<div class="row" ng-repeat="(key, each_iou) in ious" style="margin-top: 10px;">
 							<div class="span3" ng-class="{struck: true == each_iou.paid}">{{each_iou.person}}</div>
 							<div class="span2" ng-class="{struck: true == each_iou.paid}">{{each_iou.amount}}</div>
@@ -188,7 +188,7 @@
 		  		
 
 			  		<ul>
-			  			<li ng-repeat="(key, tag) in narration_tags">{{tag}} <i class="icon-remove"></i></li>
+			  			<li ng-repeat="(key, tag) in iou_tags">{{tag}} <i class="icon-remove" ng-click="remove_narration_tag(key)"></i></li>
 			  		</ul>
 			  	</div>
 			</div>
