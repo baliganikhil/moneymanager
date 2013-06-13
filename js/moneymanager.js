@@ -37,6 +37,8 @@ MoneyController = function($scope, $http) {
 	$scope.mt_sort_param = 'date';
 	$scope.mt_sort_reverse = false;
 
+	$scope.narration_mode = 'monthly_table';
+
 	// Populate date dropdown
 	$scope.populate_days_dd = function() {
 		var no_of_days;
@@ -214,7 +216,7 @@ MoneyController = function($scope, $http) {
 		$scope.inc_exp = cur_narration['inc_exp'];
 		$scope.is_avoidable = cur_narration['is_avoidable'];
 
-		show_add_narration();
+		$scope.narration_mode='add_narration';
 	}
 
 	$scope.delete_narration = function(index) {
@@ -258,7 +260,7 @@ MoneyController = function($scope, $http) {
 		$scope.notes = '';
 		$scope.inc_exp = '';
 
-		show_add_narration();
+		$scope.narration_mode='add_narration';
 	}
 
 
@@ -363,24 +365,6 @@ MoneyController = function($scope, $http) {
 
 };
 
-
-
-function show_add_narration() {
-	$('#add_narration').modal({background: 'static'});
-}
-
-function show_monthly_budget() {
-	$('#monthly_budget').modal({background: 'static'});
-}
-
-// $('#btn_add_narration').on('click', function() {
-// 	$scope.narration_id = '';
-// 	show_add_narration();
-// });
-
-$('.show_monthly_budget').on('click', function() {
-	show_monthly_budget();
-});
 
 var all_categories = ["bike loan", "books", "car loan", "clothes", "college", "electricity", "electronics", "emi", "fitness and gym", "fuel", "games", "gas", "gift", "house loan", "house rent", "internet bill", "medical", "mobile", "mobile recharge", "movies", "music", "other", "party", "personal loan", "repair and maintenance", "restaurant", "school", "shoes", "shopping", "software", "tax", "telephone bill", "vehicle", "watch", "water"];
 $('#narration_category').typeahead({source: all_categories});

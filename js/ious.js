@@ -28,6 +28,8 @@ function ADDIOUController($scope, $http) {
 	$scope.iou_tags = [];
 	$scope.new_tag = undefined;
 
+	$scope.iou_mode = 'monthly_data';
+
 	// Populate date dropdown
 	$scope.populate_days_dd = function() {
 		var no_of_days;
@@ -80,12 +82,8 @@ function ADDIOUController($scope, $http) {
 		$scope.ious = [];
 		$scope.iou_tags = [];
 
-		show_add_iou();
+		$scope.iou_mode = 'add_iou';
 	};
-
-	$scope.btn_add_friend = function() {
-		show_add_friend();
-	}
 
 	$scope.add_friend = function() {
 
@@ -106,10 +104,12 @@ function ADDIOUController($scope, $http) {
 		}).success(function(data) {
 
 			if (data['err'] == null) {
-				// $scope.monthly_data.push(data['data']);
-				// $scope.get_narrations();
-				$('.modal').modal('hide');
+				var friend_name = $scope.friend_name;
+				show_message('Your friend ' + friend_name + ' has been successfully added', 'alert-success');
 				get_friends();
+				$scope.friend_name = undefined;
+				$scope.friend_email = undefined;
+				$scope.friend_phone = undefined;
 			}
 		});
 
@@ -191,8 +191,9 @@ function ADDIOUController($scope, $http) {
 		}).success(function(data) {
 
 			if (data['err'] == null) {
-				$('.modal').modal('hide');
+				show_message('Yay! Saved successfully', 'alert-success');
 				$scope.get_ious();
+				$scope.iou_mode = 'monthly_data';
 			}
 		});
 
@@ -269,7 +270,7 @@ function ADDIOUController($scope, $http) {
 
 		$scope.iou_id = data['_id']['$id'];
 
-		show_add_iou();
+		$scope.iou_mode = 'add_iou';
 	}
 
 	$scope.add_new_tag = function () {
@@ -286,6 +287,12 @@ function ADDIOUController($scope, $http) {
 	$scope.remove_narration_tag = function (index) {
 		$scope.iou_tags.splice(index, 1);
 	}
+
+	function show_message(msg, class_name) {
+		$scope.alert_message = msg;
+		$scope.alert_class = class_name;
+		$scope.show_alert = true;
+	}
 }
 
 function nullOrEmpty(string) {
@@ -294,14 +301,4 @@ function nullOrEmpty(string) {
 	} else {
 		return false;
 	}
-}
-
-function show_add_iou() {
-	$('#add_iou').modal({background: 'static'});
-	$('#add_iou').modal('show');
-}
-
-function show_add_friend() {
-	$('#add_friend').modal({background: 'static'});
-	$('#add_friend').modal('show');
 }
