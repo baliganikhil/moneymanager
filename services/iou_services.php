@@ -7,6 +7,8 @@ require_once 'authentication_services.php';
 class iou_services {
 
 	const GET_OWE = 'get_owe';
+	const SHOULD_GET = 'should_get';
+	const SHOULD_GIVE = 'should_give';
 	
 	public function add_iou($data) {
 		$m = new MongoWrapper();
@@ -67,9 +69,13 @@ class iou_services {
 			$query[self::GET_OWE] = $params[self::GET_OWE];
 		}
 
-		// if ($params.has_key(GET_OWE)) {
-		// 	$query[GET_OWE] = $params[GET_OWE];
-		// }
+		if (array_key_exists(self::SHOULD_GET, $params)) {
+			$query['total_amount'] = array('$gt' => 0);
+		}
+
+		if (array_key_exists(self::SHOULD_GIVE, $params)) {
+			$query['total_amount'] = array('$lt' => 0);
+		}
 
 
 		$cursor = $coll_ious->find($query);

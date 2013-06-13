@@ -53,11 +53,9 @@
 	<div class="span7">
 		<div class="alert" ng-show="show_alert" ng-cloak ng-class="alert_class">{{alert_message}} <button type="button" class="close" data-dismiss="alert">&times;</button></div>
 
-		<div id="monthly_ious" style="border: solid 1px #eee; padding: 15px;">
-			<div class="well" ng-show="iou_mode == 'mode_search'" ng-cloak>
-				<button class="btn" ng-click="iou_mode = 'monthly_data'"><i class="icon-chevron-left"></i> Go Back</button> 
-				<button class="btn btn-success">People who owe me</button> 
-				<button class="btn btn-danger">People whom I owe</button> 
+		<div style="border: solid 1px #eee; padding: 15px;" ng-show="iou_mode == 'mode_search'" ng-cloak>
+			<div class="well">
+				<button class="btn" ng-click="iou_mode = 'monthly_data'"><i class="icon-chevron-left"></i> Go Back</button>
 				<hr>
 				<form class="form-search">
 				  <div class="input-append">
@@ -75,8 +73,20 @@
 					<select class='all_months' ng-model="mt_month" ng-change="month_changed()" ng-options="m.index as m.month for m in all_months">
 					</select>
 
-					<select class='all_years span2' ng-model="mt_year" ng-options="y.index as y.year for y in all_years">
+					<select class='all_years span2' ng-model="mt_year" ng-options="y.index as y.year for y in all_years" ng-change="year_changed()">
 					</select>
+
+					<div class="btn-group">
+					  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+					    All
+					    <span class="caret"></span>
+					  </a>
+					  <ul class="dropdown-menu">
+					    <li ng-click="get_ious()"><a href="javascript:void(0);">All</a></li>
+					    <li ng-click="people_who_owe_me()"><a href="javascript:void(0);">People who owe me</a></li>
+					    <li ng-click="people_whom_i_owe()"><a href="javascript:void(0);">People whom I owe</a></li>
+					  </ul>
+					</div>
 
 					<button class="btn btn-success pull-right" id="btn_add_iou" ng-click="btn_add_iou()"><i class="icon-plus icon-white"></i> IOU</button>
 				</form>

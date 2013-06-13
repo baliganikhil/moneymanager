@@ -60,7 +60,7 @@
 					<select class='all_months' ng-model="mt_month" ng-change="month_changed()" ng-options="m.index as m.month for m in all_months">
 					</select>
 
-					<select class='all_years span2' ng-model="mt_year" ng-options="y.index as y.year for y in all_years">
+					<select class='all_years span2' ng-model="mt_year" ng-options="y.index as y.year for y in all_years" ng-change="year_changed()">
 					</select>
 
 					<button class="btn btn-success pull-right" id="btn_add_narration" ng-click="btn_add_narration()"><i class="icon-plus icon-white"></i> Item</button>

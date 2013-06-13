@@ -60,7 +60,7 @@ function ADDIOUController($scope, $http) {
 
 	$scope.add_iou_to_cur_iou = function() {
 		var iou = {};
-		iou['amount'] = $scope.amount;
+		iou['amount'] = parseFloat($scope.amount);
 		iou['person'] = $scope.person;
 		iou['paid'] = false;
 
@@ -170,9 +170,9 @@ function ADDIOUController($scope, $http) {
 		for (var i = 0; i < $scope.ious.length; i++) {
 			if (!$scope.ious[i]['paid']) {
 				if ($scope.get_owe == 'get') {
-					total_amount += $scope.ious[i]['amount'];
+					total_amount += parseFloat($scope.ious[i]['amount']);
 				} else {
-					total_amount -= $scope.ious[i]['amount'];
+					total_amount -= parseFloat($scope.ious[i]['amount']);
 				}
 			}
 		}
@@ -199,11 +199,28 @@ function ADDIOUController($scope, $http) {
 
 	}
 
-	$scope.get_ious = function() {
+	$scope.month_changed = function() {
+		$scope.get_ious();
+		$scope.populate_days_dd();			
+	}
+
+	$scope.year_changed = function() {
+		$scope.get_ious();
+		$scope.populate_days_dd();
+	}
+
+	$scope.get_ious = function(extra_params) {
 		var data = {};
 		data['month'] = parseInt($scope.mt_month);
 		data['year'] = parseInt($scope.mt_year);
-		
+
+		if (!nullOrEmpty(extra_params)) {
+			var keys = Object.keys(extra_params);
+			for (var i = 0; i < keys.length; i++) {
+				data[keys[i]] = extra_params[keys[i]];
+			}
+		}
+
 		var params = {};
 		params['mode'] = 'mode_get_ious';
 		params['data'] = data;
@@ -286,6 +303,18 @@ function ADDIOUController($scope, $http) {
 
 	$scope.remove_narration_tag = function (index) {
 		$scope.iou_tags.splice(index, 1);
+	}
+
+	$scope.people_who_owe_me = function() {
+		var extra_params = {};
+		extra_params['should_get'] = true;
+		$scope.get_ious(extra_params);
+	}
+
+	$scope.people_whom_i_owe = function() {
+		var extra_params = {};
+		extra_params['should_give'] = true;
+		$scope.get_ious(extra_params);
 	}
 
 	function show_message(msg, class_name) {

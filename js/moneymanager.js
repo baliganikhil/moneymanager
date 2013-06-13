@@ -66,7 +66,12 @@ MoneyController = function($scope, $http) {
 
 	$scope.month_changed = function() {
 		$scope.get_narrations();
-		$scope.populate_days_dd();			
+		$scope.populate_days_dd();
+	}
+
+	$scope.year_changed = function() {
+		$scope.get_narrations();
+		$scope.populate_days_dd();
 	}
 
 	$scope.get_narrations = function() {
