@@ -133,8 +133,7 @@ function ADDIOUController($scope, $http) {
 					friends_names.push(all_friends[i]['name']);
 				}
 
-				console.log(friends_names);
-				$('#person_name').typeahead({source: friends_names});
+				$('.person_name').typeahead({source: friends_names});
 			}
 		});
 	}

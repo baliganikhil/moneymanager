@@ -18,6 +18,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-responsive.min.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.css" rel="stylesheet">
 	<script type="text/javascript" src="js/angular.min.js"></script>
 	<script type="text/javascript" src="js/jquery.js"></script>
 
@@ -32,6 +33,7 @@
 	      <li><a href="moneymanager.php">Home</a></li>
 	      <li class="active"><a href="#">IOUs</a></li>
 	      <li><a href="stats.php">Stats</a></li>
+	      <li><a href="about.php">About</a></li>
 	    </ul>
 
 	    <ul class="nav pull-right">
@@ -47,6 +49,7 @@
 		<ul class="nav nav-tabs nav-stacked">
 			<li ng-click="iou_mode = 'mode_search'"><a href="javascript: void(0);"><i class="icon-search"></i> Search</a></li>
 			<li class="add_friend" ng-click="iou_mode = 'add_friend'"><a href="javascript: void(0);"><i class="icon-user"></i> Add Friend</a></li>
+			<li ng-click="iou_mode = 'mode_settle'"><a href="javascript: void(0);"><i class="icon-money"></i> Settle IOU</a></li>
 		</ul>
 	</div>
 
@@ -60,6 +63,18 @@
 				<form class="form-search">
 				  <div class="input-append">
 				    <input type="text" class="span5 search-query" placeholder="Search">
+				    <button type="submit" class="btn">Search</button>
+				  </div>
+				</form>
+			</div>
+
+		</div>
+
+		<div style="border: solid 1px #eee; padding: 15px;" ng-show="iou_mode == 'mode_settle'" ng-cloak>
+			<div class="well">
+				<form class="form-search">
+				  <div class="input-append">
+				    <input type="text" class="span5 search-query person_name" placeholder="Enter Friend's Name">
 				    <button type="submit" class="btn">Search</button>
 				  </div>
 				</form>
@@ -172,7 +187,7 @@
 
 						<div class="form-horizontal">
 							<form>
-								<input type="text" placeholder="Person" class="span3" ng-model="person" id="person_name"> 
+								<input type="text" placeholder="Person" class="span3 person_name" ng-model="person" id="person_name"> 
 								<input type="text" placeholder="Amount" class="span2" ng-model="amount" ng-pattern="/^[0-9]+$/"> 
 								<button type="submit" class="btn btn-success" ng-click="add_iou_to_cur_iou()" ng-disabled="person == '' || ng-amount == ''"><i class="icon-white icon-plus"></i></button>
 							</form>
@@ -259,6 +274,10 @@
 
 	.struck {
 		text-decoration: line-through;
+	}
+
+	i[class ^='icon'] {
+		margin-right: 10px;
 	}
 </style>
 

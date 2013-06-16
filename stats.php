@@ -31,6 +31,7 @@
 	      <li><a href="moneymanager.php">Home</a></li>
 	      <li><a href="ious.php">IOUs</a></li>
 	      <li class="active"><a href="#">Stats</a></li>
+	      <li><a href="about.php">About</a></li>
 	    </ul>
 
 	    <ul class="nav pull-right">
