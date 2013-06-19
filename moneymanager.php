@@ -54,6 +54,8 @@
 
 	<div class="span7">
 
+		<div class="alert" ng-show="show_alert" ng-cloak ng-class="alert_class">{{alert_message}} <button type="button" class="close" data-dismiss="alert">&times;</button></div>
+
 		<div id="monthly_table" style="border: solid 1px #eee; padding: 15px;" ng-show="narration_mode == 'monthly_table'">
 
 			<div class="well">

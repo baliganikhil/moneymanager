@@ -179,9 +179,9 @@ MoneyController = function($scope, $http) {
 		}).success(function(data) {
 
 			if (data['err'] == null) {
-				// $scope.monthly_data.push(data['data']);
+				show_message('Yay! Your item has been successfully added :-)', 'alert-success');
+				$scope.btn_add_narration();
 				$scope.get_narrations();
-				$('.modal').modal('hide');
 			}
 		});
 	}
@@ -327,7 +327,7 @@ MoneyController = function($scope, $http) {
 		}).success(function(data) {
 
 			if (data['err'] == '') {
-				$('#monthly_budget').modal('hide');
+				show_message('Yay! Your budget has been successfully added :-)', 'alert-success');
 
 				data = data['data'];
 
@@ -336,7 +336,7 @@ MoneyController = function($scope, $http) {
 					evaluate_totals_budget();
 				}
 			} else {
-				alert(data['err']);
+				show_message('Oops! ' + data['err'], 'alert-error');
 			}
 			
 
@@ -366,6 +366,12 @@ MoneyController = function($scope, $http) {
 			}
 
 		});
+	}
+
+	function show_message(msg, class_name) {
+		$scope.alert_message = msg;
+		$scope.alert_class = class_name;
+		$scope.show_alert = true;
 	}
 
 };
