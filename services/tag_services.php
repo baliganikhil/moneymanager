@@ -15,7 +15,8 @@ class tag_services {
 
 		$record = array();
 		$record[USERNAME] = $username;
-		$record[TAGS] = $data;
+		$record[TAGS] = $data[TAGS];
+
 
 		$r = $coll_tags->update(array(USERNAME => $username), $record, array('upsert' => true));
 

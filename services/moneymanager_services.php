@@ -59,6 +59,7 @@ switch ($mode) {
 
 	case MODE_ADD_NARRATION:
 		require_once 'narration_services.php';
+		require_once 'tag_services.php';
 		add_narration($request_params);
 		break;
 
