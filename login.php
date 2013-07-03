@@ -23,7 +23,11 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
 
 	<div class="container" ng-controller="LoginController">
 
-		<div class="span6 well" style="margin-top: 20px;">
+		<div class="span6 well offset3" style="margin-top: 20px;">
+			<h2>BLACK LIGHT</h2>
+			<h4>Keep track of your money</h4>
+			<hr>
+
 			<form class="form-horizontal">
 			  <div class="control-group">
 			    <label class="control-label" for="inputEmail">Email</label>

@@ -195,7 +195,7 @@
 						
 						<hr>
 						
-						<label class="checkbox"><input type="checkbox" id="recurring" name="recurring" ng-model="add_recurring"> Recurring</label>
+						<label class="checkbox"><input type="checkbox" id="recurring" name="recurring" ng-model="add_recurring" disabled> Recurring (Currently disabled)</label>
 
 						<div ng-show="add_recurring">
 							Repeats every <input type="text" class="span1"> 

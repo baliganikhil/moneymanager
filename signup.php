@@ -23,9 +23,11 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['auth_key'])) {
 
 	<div class="container" ng-controller="SignUpController">
 
-		<div class="span6"></div>
+		<div class="span6 well offset2" style="margin-top: 20px;">
+			<h2>BLACK LIGHT</h2>
+			<h4>Keep track of your money</h4>
+			<hr>
 
-		<div class="span6" style="margin-top: 20px;">
 			<form class="form-horizontal" name="SignUpForm" ng-cloak>
 			  <div class="control-group">
 			    <label class="control-label" for="inputEmail">Email</label>
