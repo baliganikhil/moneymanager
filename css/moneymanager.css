@@ -1,0 +1,29 @@
+#add_narration {
+	border: solid 1px #EEE;
+	padding: 20px;
+}
+
+#monthly_budget {
+	border: solid 1px #EEE;
+	padding: 15px;
+}
+
+.btn_toolbar {
+	margin-top: 15px;
+	text-align: right;
+}
+
+.label_help {
+	color: #666 !important;
+	font-size: 11px;
+}
+
+.label_green {
+	color: green;
+	font-weight: bold;
+}
+
+.label_red {
+	color: red;
+	font-weight: bold;
+}
