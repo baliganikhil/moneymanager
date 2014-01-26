@@ -142,7 +142,7 @@
 			</table>
 
 			<div class="btn_toolbar">
-				<button class="btn"  ng-click="narration_mode = 'monthly_table'">Cancel</button> 
+				<button class="btn"  ng-click="narration_mode = 'monthly_table'">Cancel</button>
 				<button class="btn btn-primary" ng-click="set_monthly_budget()">Save</button>
 			</div>
 
@@ -161,10 +161,10 @@
 				  <li ng-show="inc_exp == 'exp'"><a href="#tab_investment">Investment</a></li>
 
 				  <li><a href="#tab_tags">Tags</a></li>
-				  
+
 				  <li><a href="#more_info">More</a></li>
 				</ul>
-				 
+
 				<div class="tab-content">
 				  <div class="tab-pane active" id="basic">
 
@@ -192,13 +192,13 @@
 						<select class="span2" ng-model="narration_date" required ng-options="d.index as d.date for d in all_days">
 						</select>
 						<strong>{{all_months[mt_month - 1]['month']}}, {{mt_year}}</strong>
-						
+
 						<hr>
-						
+
 						<label class="checkbox"><input type="checkbox" id="recurring" name="recurring" ng-model="add_recurring" disabled> Recurring (Currently disabled)</label>
 
 						<div ng-show="add_recurring">
-							Repeats every <input type="text" class="span1"> 
+							Repeats every <input type="text" class="span1">
 							<select class="span2">
 								<option>Days</option>
 								<option>Weeks</option>
@@ -209,7 +209,7 @@
 					</div>
 
 				  </div>
-				  
+
 				  <div class="tab-pane" id="tab_investment" ng-show="inc_exp == 'exp'">
 				  	<label class="checkbox"><input type="checkbox" id="investment" name="investment" ng-model="is_investment" value="true"> Is Investment?</label>
 				  </div>
@@ -219,19 +219,19 @@
 				  	<span class="label_help">Ex: 'child' - to see all expenses on child</span>
 
 				  	<div>
-				  		
+
 			  			<div class="input-append">
-				  			<input type="text" ng-model="new_tag" name="new_tag" id="new_tag" placeholder="Enter tag"> 
+				  			<input type="text" ng-model="new_tag" name="new_tag" id="new_tag" placeholder="Enter tag">
 				  			<button type="submit" class="btn btn-success" ng-click="add_new_tag()" ng-disabled="new_tag == undefined"><i class="icon-plus icon-white"></i></button>
 				  		</div>
-			  		
+
 
 				  		<ul style="list-style-type: none;">
 				  			<li ng-repeat="(key, tag) in narration_tags"><span class="label label-inverse">{{tag}} <i class="icon-remove icon-white" ng-click="remove_narration_tag(key)"></i> </span></li>
 				  		</ul>
 				  	</div>
 				  </div>
-				  
+
 				  <div class="tab-pane" id="more_info">
 				  	<div>
 						<textarea class="span5" rows="3" placeholder="Notes" ng-model="notes"></textarea>
@@ -275,39 +275,7 @@
 		});
 	</script>
 
-	
-	<style type="text/css">
-	#add_narration {
-		border: solid 1px #EEE;
-		padding: 20px;
-	}
-
-	#monthly_budget {
-		border: solid 1px #EEE;
-		padding: 15px;
-	}
-
-	.btn_toolbar {
-		margin-top: 15px;
-		text-align: right;
-	}
-
-	.label_help {
-		color: #666 !important;
-		font-size: 11px;
-	}
-
-	.label_green {
-		color: green;
-		font-weight: bold;
-	}
-
-	.label_red {
-		color: red;
-		font-weight: bold;
-	}
-
-	</style>
+	<link rel="stylesheet" type="text/css" href="css/moneymanager.css">
 
 </body>
 </html>
